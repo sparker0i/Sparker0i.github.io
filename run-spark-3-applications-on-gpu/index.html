@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Run your Apache Spark applications on a GPU</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <meta name="description" content="Wanted to run your Spark job on a GPU but didn&#x27;t know how? Well, your search ends here. Read my blog post to find out how you can take advantage of GPU." />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/run-spark-3-applications-on-gpu/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/run-spark-3-applications-on-gpu/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Run your Apache Spark applications on a GPU" />
+    <meta property="og:description" content="Wanted to run your Spark job on a GPU but didn&#x27;t know how? Well, your search ends here :)" />
+    <meta property="og:url" content="http://localhost:2368/run-spark-3-applications-on-gpu/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/2020/09/untitled-3-.png" />
+    <meta property="article:published_time" content="2020-09-19T03:44:00.000Z" />
+    <meta property="article:modified_time" content="2020-09-19T11:44:57.000Z" />
+    <meta property="article:tag" content="Spark" />
+    <meta property="article:tag" content="Scala" />
+    <meta property="article:tag" content="Graphics" />
+    <meta property="article:tag" content="Nvidia" />
+    <meta property="article:tag" content="GPU" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Run your Apache Spark applications on a GPU" />
+    <meta name="twitter:description" content="Wanted to run your Spark job on a GPU but didn&#x27;t know how? Well, your search ends here :)" />
+    <meta name="twitter:url" content="http://localhost:2368/run-spark-3-applications-on-gpu/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/09/untitled-3-.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Spark, Scala, Graphics, Nvidia, GPU" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    <meta property="og:image:width" content="810" />
+    <meta property="og:image:height" content="400" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Run your Apache Spark applications on a GPU",
+    "url": "http://localhost:2368/run-spark-3-applications-on-gpu/",
+    "datePublished": "2020-09-19T03:44:00.000Z",
+    "dateModified": "2020-09-19T11:44:57.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2020/09/untitled-3-.png",
+        "width": 810,
+        "height": 400
+    },
+    "keywords": "Spark, Scala, Graphics, Nvidia, GPU",
+    "description": "Wanted to run your Spark job on a GPU but didn&#x27;t know how? Well, your search ends here :)",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-spark tag-scala tag-graphics tag-nvidia tag-gpu has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-spark tag-scala tag-graphics tag-nvidia tag-gpu featured ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/spark/">Spark</a>
+            </section>
+
+            <h1 class="article-title">How to run Spark 3.0 applications on your GPU</h1>
+
+            <p class="article-excerpt">Wanted to run your Spark job on a GPU but didn&#x27;t know how? Well, your search ends here :)</p>
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2020-09-19">Sep 19, 2020</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 4 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                            /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                            /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                            /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/2020/09/untitled-3-.png"
+                    alt="How to run Spark 3.0 applications on your GPU"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <p>In one of my previous blog posts, I'd mentioned that Spark 3.0 is coming with Native GPU support. A few days after that, Spark 3.0 released on 18th June 2020. While it did release, there were no mentions of how to run your Spark 3.0 code on a GPU anywhere on the internet. <strong>It changes now.</strong></p><p>In this post, you'll see the prerequisites for running Spark on GPU on a local machine, as well as all installation instructions.</p><h3 id="prerequisites">Prerequisites</h3><p>To run Spark applications on your GPU, it is recommended that you have an <strong>Nvidia GPU </strong>of<strong> Pascal Architecture</strong> or better. This means that you will need an <strong>Nvidia Geforce GTX 1050 or better</strong>. Other requirements are the same as Apache Spark requirements.</p><p><em>(PS. I don't have an AMD GPU, so can't really test and confirm whether this will work with it or not, but chances are very slim as you need a tool called <code>nvidia-smi</code>, which works only with Nvidia GPUs)</em></p><p>You will also need to install <a href="https://spark.apache.org/downloads.html">Apache Spark 3.0</a>, <a href="https://developer.nvidia.com/cuda-downloads">Nvidia CUDA</a> on your machine.</p><p>Other than these, you will also need 2 JARs: <a href="https://mvnrepository.com/artifact/com.nvidia/rapids-4-spark_2.12">Rapids Accelerator</a> and <a href="https://repo1.maven.org/maven2/ai/rapids/cudf/0.15/">NVIDIA CUDF</a> (for CUDA 11).</p><p>You will also need a Linux system to run your jobs. This won't work on Windows as CUDF isn't supported on that platform. However, the CUDF team says they will support CUDA Running on WSL 2.0. To get CUDA Running with WSL, you'll need to be a part of the Windows Insider Program.</p><p>You will also need a GPU Discovery script which tells the program the addresses of GPUs available on your system. Fortunately, the Spark repo has a <a href="https://github.com/apache/spark/blob/master/examples/src/main/scripts/getGpusResources.sh">GPU discovery script</a> handy which can be readily used.</p><h3 id="running">Running</h3><p>For Spark 3.0 to recognize that you will be running your jobs on a GPU, you need to pass a few parameters as Spark confs:</p><ul><li><code>spark.rapids.sql.enabled</code> as <code>true</code></li><li><code>spark.plugins</code> as <code>com.nvidia.spark.SQLPlugin</code></li><li><code>spark.driver.resource.gpu.discoveryScript</code> as &lt;The location where you have downloaded the GPU discovery script from above&gt;</li></ul><p>You can either run this with <code>spark-shell</code> or you can create your own JAR and run it using <code>spark-submit</code> and then pass these configurations.</p><h3 id="performance">Performance</h3><p>In order to illustrate the performance difference between running your Spark program on a CPU vs GPU, I will be using a very simple program which is very much self explanatory:</p><figure class="kg-card kg-code-card"><pre><code>val values: List[Int] = List(100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1000000000)
+
+for (upperBound &lt;- values) {
+    val df = sc.makeRDD(1 to upperBound).toDF("a")
+    val df2 = sc.makeRDD(1 to upperBound).toDF("b")
+    println(df.join(df2, $"a" === $"b" / 2).count())
+}</code></pre><figcaption>Spark program for testing performance: CPU vs GPU</figcaption></figure><p>Further, in order to level the playing field between the 2 runs, I'm setting certain common configs:</p><ul><li><code>spark.locality.wait</code> = <code>0s</code></li><li><code>spark.driver.memory</code> = <code>10G</code></li><li><code>spark.sql.files.maxPartitionBytes</code> = <code>512 * 1024 * 1024</code></li><li><code>spark.sql.shuffle.partitions</code> = <code>10</code></li></ul><p>Here are the specs of the laptop which I used to perform this test:</p><ul><li>6-core Intel Core i7-8750H</li><li>16GB DDR4 RAM, 256GB NVME SSD</li><li>8GB Nvidia Geforce RTX 2080 Graphics Card</li></ul><p>Here are two plots showing the <code>upperBound</code> against time taken:</p><!--kg-card-begin: html--><!DOCTYPE html>
+<html>
+	<head>
+		<title>chart created with amCharts | amCharts</title>
+		<meta name="description" content="chart created using amCharts live editor" />
+		
+		<!-- amCharts javascript sources -->
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+		
+
+		<!-- amCharts javascript code -->
+		<script type="text/javascript">
+			AmCharts.makeChart("chartdiv",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start",
+						"title": "Record Count"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "Time taken to process [[category]] records in [[title]]:[[value]]",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "CPU",
+							"valueField": "CPU"
+						},
+						{
+							"balloonText": "Time taken to process [[category]] records in [[title]]:[[value]]",
+							"bullet": "square",
+							"id": "AmGraph-2",
+							"title": "GPU",
+							"valueField": "GPU"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"axisFrequency": -2,
+							"id": "ValueAxis-1",
+							"maximum": 2,
+							"minimum": 0,
+							"title": "Time taken (s)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Spark Performance: CPU vs GPU"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "100",
+							"CPU": "0.3",
+							"GPU": "1.3"
+						},
+						{
+							"category": "500",
+							"CPU": "0.054",
+							"GPU": "0.219"
+						},
+						{
+							"category": "1000",
+							"CPU": "0.052",
+							"GPU": "0.114"
+						},
+						{
+							"category": "5000",
+							"CPU": "0.055",
+							"GPU": "0.11"
+						},
+						{
+							"category": "10000",
+							"CPU": "0.056",
+							"GPU": "0.127"
+						},
+						{
+							"category": "50000",
+							"CPU": "0.2",
+							"GPU": "0.1"
+						},
+						{
+							"category": "100000",
+							"CPU": "0.073",
+							"GPU": "0.137"
+						},
+						{
+							"category": "500000",
+							"CPU": "0.1",
+							"GPU": "0.136"
+						},
+						{
+							"category": "1000000",
+							"CPU": "0.2",
+							"GPU": "0.159"
+						},
+						{
+							"category": "5000000",
+							"CPU": "1",
+							"GPU": "0.292"
+						},
+						{
+							"category": "10000000",
+							"CPU": "2",
+							"GPU": "0.505"
+						}
+					]
+				}
+			);
+		</script>
+	</head>
+	<body>
+		<div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+	</body>
+</html><!--kg-card-end: html--><p></p><!--kg-card-begin: html--><!DOCTYPE html>
+<html>
+	<head>
+		<title>chart created with amCharts | amCharts</title>
+		<meta name="description" content="chart created using amCharts live editor" />
+		
+		<!-- amCharts javascript sources -->
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+		<script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+		
+
+		<!-- amCharts javascript code -->
+		<script type="text/javascript">
+			AmCharts.makeChart("chartdiv1",
+				{
+					"type": "serial",
+					"categoryField": "category",
+					"startDuration": 1,
+					"categoryAxis": {
+						"gridPosition": "start",
+						"title": "Record Count"
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"balloonText": "Time taken to process [[category]] records in [[title]]:[[value]]",
+							"bullet": "round",
+							"id": "AmGraph-1",
+							"title": "CPU",
+							"valueField": "CPU"
+						},
+						{
+							"balloonText": "Time taken to process [[category]] records in [[title]]:[[value]]",
+							"bullet": "square",
+							"id": "AmGraph-2",
+							"title": "GPU",
+							"valueField": "GPU"
+						}
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"axisFrequency": -2,
+							"id": "ValueAxis-1",
+							"maximum": 900,
+							"minimum": 0,
+							"title": "Time taken (s)"
+						}
+					],
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"useGraphSettings": true
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 15,
+							"text": "Spark Performance: CPU vs GPU"
+						}
+					],
+					"dataProvider": [
+						{
+							"category": "100000000",
+							"CPU": "34",
+							"GPU": "3.004"
+						},
+						{
+							"category": "500000000",
+							"CPU": "318",
+							"GPU": "167.004"
+						},
+						{
+							"category": "1000000000",
+							"CPU": "840",
+							"GPU": "324.004"
+						}
+					]
+				}
+			);
+		</script>
+	</head>
+	<body>
+		<div id="chartdiv1" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+	</body>
+</html><!--kg-card-end: html--><p>As you can see from the graphs above, for very less records - with sizes within a few Megabytes - it is faster on the CPU than on the GPU because of the less time taken to propagate the results.</p><p>But things change for the better, when a high volume of records have to start processing. For very high records, you can see a difference of almost 3x. </p><p>Moreover, for 1000000000 records (the last one), my Spark program crashed when run against the CPU. So the 13 minutes that you see above was until when it was successfully running.</p><h3 id="conclusion">Conclusion</h3><p>To confirm whether your program is running against the GPU or not, you can go to the SQL tab, select your job, and then you will see something like <code>GpuRowToColumnar</code>, indicating that the job is running against the GPU.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/09/Screenshot-from-2020-09-13-23-16-37.png" class="kg-image" alt loading="lazy"><figcaption>Spark running on GPU</figcaption></figure><p>So if you've got heavy workloads, try and offload them to the GPU as much as you can :)</p>
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post ">
+
+    <a class="post-card-image-link" href="/spark-ml-data-preprocessing/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/05/mllib.jpg 300w,
+                    /content/images/size/w600/2020/05/mllib.jpg 600w,
+                    /content/images/size/w1000/2020/05/mllib.jpg 1000w,
+                    /content/images/size/w2000/2020/05/mllib.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/05/mllib.jpg"
+            alt="Cool Spark ML - Part 2: Preprocessing of Data"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/spark-ml-data-preprocessing/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Cool Spark ML - Part 2: Preprocessing of Data</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Data preprocessing is the process of detecting and correcting inaccurate records from a dataset. Its importance is more paramount when it comes to big data. Learn how you can preprocess data in Spark ML.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-06-06">Jun 6, 2020</time> <span class="bull">&bull;</span> 10 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>

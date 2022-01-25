@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Spark ML: Numeric and Text Data Preprocessing</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <meta name="description" content="Preprocessing deals with detecting &amp; correcting inaccurate records from data. Learn how you can take a step to preprocess Big data with Spark ML." />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/spark-ml-data-preprocessing/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/spark-ml-data-preprocessing/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Spark ML: Numeric and Text Data Preprocessing" />
+    <meta property="og:description" content="Data preprocessing is the process of detecting and correcting inaccurate records from a dataset. Its importance is more paramount when it comes to big data. Learn how you can preprocess data in Spark ML." />
+    <meta property="og:url" content="http://localhost:2368/spark-ml-data-preprocessing/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/2020/05/mllib.jpg" />
+    <meta property="article:published_time" content="2020-06-06T08:02:00.000Z" />
+    <meta property="article:modified_time" content="2020-06-06T08:02:00.000Z" />
+    <meta property="article:tag" content="Spark" />
+    <meta property="article:tag" content="Spark ML" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Spark ML: Numeric and Text Data Preprocessing" />
+    <meta name="twitter:description" content="Data preprocessing is the process of detecting and correcting inaccurate records from a dataset. Its importance is more paramount when it comes to big data. Learn how you can preprocess data in Spark ML." />
+    <meta name="twitter:url" content="http://localhost:2368/spark-ml-data-preprocessing/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/05/mllib.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Spark, Spark ML" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Spark ML: Numeric and Text Data Preprocessing",
+    "url": "http://localhost:2368/spark-ml-data-preprocessing/",
+    "datePublished": "2020-06-06T08:02:00.000Z",
+    "dateModified": "2020-06-06T08:02:00.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2020/05/mllib.jpg"
+    },
+    "keywords": "Spark, Spark ML",
+    "description": "Data preprocessing is the process of detecting and correcting inaccurate records from a dataset. Its importance is more paramount when it comes to big data. Learn how you can preprocess data in Spark ML.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-spark tag-spark-ml has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-spark tag-spark-ml ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/spark/">Spark</a>
+            </section>
+
+            <h1 class="article-title">Cool Spark ML - Part 2: Preprocessing of Data</h1>
+
+            <p class="article-excerpt">Data preprocessing is the process of detecting and correcting inaccurate records from a dataset. Its importance is more paramount when it comes to big data. Learn how you can preprocess data in Spark ML.</p>
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2020-06-06">Jun 6, 2020</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 10 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/2020/05/mllib.jpg 300w,
+                            /content/images/size/w600/2020/05/mllib.jpg 600w,
+                            /content/images/size/w1000/2020/05/mllib.jpg 1000w,
+                            /content/images/size/w2000/2020/05/mllib.jpg 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/2020/05/mllib.jpg"
+                    alt="Cool Spark ML - Part 2: Preprocessing of Data"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <p><em>Note: This is the second article of the series: Cool Spark ML. The other parts can be found below:</em></p><ul><li><a href="http://localhost:2368/spark-machine-learning-knn/">Part 1: K Nearest Neighbours</a></li><li>Part 2: Preprocessing of Data (current)</li></ul><p>People who have been performing Machine Learning for quite a long time know that Data Preprocessing is a key step before running any algorithms on the data. In a majority of datasets, you might always find null, or incomplete values. The data would also be inconsistent across columns, which directly affects algorithms using distance measures.</p><p>This is where Data Preprocessing comes in. It is a crucial step which involves cleaning and organizing the data to make it suitable for building models. In other words, if you don't perform Preprocessing, your models may not be accurate.</p><p>While there are quite a lot of articles online about Data Preprocessing in Python, there aren't a lot of them in Spark, or even Scala. In this post, I will be dealing with the ways you can perform Data Preprocessing in Spark on Scala.</p><p><em>PS. You might be asking why I'm dealing with this now when I have actually written KNN in Spark before. The truth is, KNN isn't officially supported inside Spark ML module. What I wrote in the previous article was a top-to-bottom version of KNN performed using Spark. You can also say that I'm doing a complete reset of this series 😅</em></p><p>Just like always, the codes for all posts in this series will be available on <a href="https://github.com/Sparker0i/Cool-Spark-ML">my GitHub repo</a>.</p><h2 id="types-of-preprocessing-in-spark">Types of Preprocessing in Spark</h2><p>There are two types of preprocessing:</p><ul><li>Numeric Data</li><li>Text Data</li></ul><h2 id="numeric-data">Numeric Data</h2><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/1_GAcEj37smCOCZMrqp-rjjA.png" class="kg-image" alt loading="lazy"></figure><p>There are three ways you can preprocess numeric data in Spark:</p><ul><li>Normalize</li><li>Standardize</li><li>Bucketize</li></ul><p>To illustrate Normalize and Standardize, I'll be using some Scala magic which will generate my points as a Vector. Each vector represents a point in a 3-Dimensional Space.</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val points = for (i &lt;- 1 to 1000) yield (i, Vectors.dense(
+    Array(
+        (math.random * (10 - 1)) * i + 1.0,
+        (math.random * (10000 - 1000)) + 1000.0,
+        math.random * i
+    )
+))
+
+val featuresDf = points.toDF("id", "features")</code></pre><figcaption>Creating a Random Set of Points in a 3D space</figcaption></figure><p>Doing the above results in the following <code>DataFrame</code>:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-2.png" class="kg-image" alt loading="lazy"><figcaption>Each element inside Features column represents a point in a 3-D space.</figcaption></figure><h3 id="normalize">Normalize</h3><p>Normalization is the process of mapping numeric data from their original range into a range of 0 to 1. The lowest value of the original range gets value of 0, and the highest gets the value 1. All the other values in the original range will fall between these two. </p><p>This is important because there may be multiple attributes with different ranges. <em>E.g. Salary values may range between 3 and 8+ digit numbers, years in company will be between 1- and 2-digit numbers. </em>The reason we want to normalize those attributes in a <code>[0,1]</code> range is so that when algorithms that use distance as a measure, they don't weigh some attributes like salary more heavily than others.</p><p>The formula to convert values in an un-normalized column to a normalized form is given by:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-5.png" class="kg-image" alt loading="lazy"><figcaption>Normalization Formula</figcaption></figure><p>Where:</p><ul><li><code>x</code> is the value inside a column to be normalized, </li><li><code>x(new)</code> is the normalized value,</li><li><code>x(min)</code> is the minimum value of that column, and</li><li><code>x(max)</code> is the maximum value of that column</li></ul><p>Working on the <code>featuresDf</code> created above, we will import <code>MinMaxScaler</code> from the <code>org.apache.spark.ml.feature</code> package. We now have to create an instance of the <code>MinMaxScaler</code>. It will take two parameters: Input column name, and an Output Column name. This object will transform the contents of the input column vectors into a scaled version, and save it into the output column.</p><p>In our case, we will be using our <code>features</code> column inside <code>featuresDf</code> as the input column, and our output column will be named <code>sFeatures</code>. We create the instance in this manner:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val featureScaler = new MinMaxScaler()
+    .setInputCol("features")
+    .setOutputCol("sfeatures")</code></pre><figcaption>Creating the <code>MinMaxScaler</code> object.</figcaption></figure><p>Next, we have to <code>fit</code> the data present in our <code>featuresDf</code> inside this <code>featureScaler</code> and later <code>transform</code> to create the scaled data. This is done using the code below:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val scaledDf = featureScaler.fit(featuresDf)
+	.transform(featuresDf)</code></pre><figcaption>Transforming original values into normalized ones</figcaption></figure><p>Now, if we have a look at our transformed data:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-4.png" class="kg-image" alt loading="lazy"><figcaption>Normalized <code>DataFrame</code></figcaption></figure><p>You can then use this new <code>sFeatures</code> to calculate distances among points.</p><h3 id="standardize">Standardize</h3><p>Now, we may have data whose values can be mapped to a bell-shaped curve, or normally distributed but maybe not exactly. With standardization, we map our data and transform it, which has a variance of 1 and/or a mean value of 0. This is done because some machine learning algorithms, like SVM, work better this way.</p><p>Thus, what happens is when we apply standardization, our data is slightly shifted in its shape so that it becomes more normalized, or more like a bell curve. The formula to convert values in a non-standardized column to a standardized form is given by:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-6.png" class="kg-image" alt loading="lazy"><figcaption>Standardization Formula</figcaption></figure><p>Where:</p><ul><li><code>x</code> is the value to be standardized</li><li><code>x(new)</code> is the standardized value</li><li><code>μ</code> is the mean of the column</li><li><code>σ</code> is the standard deviation of the column.</li></ul><p>Again, we will be using the <code>featuresDf</code> created above. We will import <code>StandardScaler</code> from the <code>org.apache.spark.ml.feature</code> package. Just like <code>MinMaxScaler</code>, an instance of <code>StandardScaler</code> will require an input column and an output column. In our case, we will still continue with <code>features</code> and <code>sFeatures</code>. We will then <code>fit</code> the data inside the scaler and later <code>transform</code> the data. I've combined both these steps into a single code snippet:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val featureStandardScaler = new StandardScaler()
+    .setInputCol("features")
+    .setOutputCol("sfeatures")
+    .setWithStd(true)
+    .setWithMean(true)
+    
+val standardizedDf = featureStandardScaler.fit(featuresDf)
+    .transform(featuresDf)</code></pre><figcaption>Standardization of numeric data in Spark ML</figcaption></figure><p>Now if we have a look at our transformed data:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-8.png" class="kg-image" alt loading="lazy"><figcaption>Standardized Numeric Data</figcaption></figure><p>Wait, weren't the values supposed to be scaled within the range of <code>[-1, 1]</code>? Well, that's the surprise associated with the <code>StandardScaler</code>. It uses the unbiased sample standard deviation instead of the population standard deviation. </p><p>In other words, while the standard deviation will be 1 (or very close to 1), the mean may not be necessarily 0. To scale your data in a way that the range of numbers is between <code>[-1,1]</code> and the standard deviation is 1 and mean 0, you will have to follow <a href="https://stackoverflow.com/a/51755387/2451763">this accepted StackOverflow answer</a>. Even otherwise with this process, the data has been standardized.</p><h3 id="bucketize">Bucketize</h3><p>Bucketization is done when we have to organize continuous ranges of data into different buckets. <code>Bucketizer</code> allows us to group data based on boundaries, so a list of boundaries has to be provided. I will call it <code>splits</code> with the domain of all buckets when added looks like: <code>{(-∞, -500.0) ⋃ [-500.0, -100.0) ⋃ [-100.0, -10.0) ⋃ [-10.0, 0.0) ⋃ [0.0, 10.0) ⋃ [10.0, 100.0) ⋃ [100.0, 500.0) ⋃ [500.0, ∞)}</code>.</p><p>Then I'll generate 1000 random points that fall in the range of <code>[-10000.0, 10000.0]</code> and save it in a <code>DataFrame</code> with column name as <code>features</code>. This is done using the below code:</p><pre><code class="language-scala">val splits = Array(Float.NegativeInfinity, -500.0, -100.0, -10.0, 0.0, 10.0, 100.0, 500.0, Float.PositiveInfinity)
+
+val bucketData = (for (i &lt;- 0 to 10000) yield math.random * 10000.0 * (if (math.random &lt; 0.5) -1 else 1))
+val bucketDf = bucketData.toDF("features")</code></pre><p>Now, our <code>Bucketizer</code> needs three inputs: the splits, input column name, and output column name. Then I'll <code>transform</code> that data which would then give me the element and which bucket it belongs to:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val bucketizer = new Bucketizer()
+    .setSplits(splits)
+    .setInputCol("features")
+    .setOutputCol("bfeatures")
+
+val bucketedDf = bucketizer.transform(bucketDf)</code></pre><figcaption>Bucketizing Numeric Data in Spark</figcaption></figure><p>Notice that I didn't have to do a <code>fit</code> operation before doing a <code>transform</code>. This is because Bucketizing is fairly simple and you only need to find which bucket a number belongs to. Thus, there are no operations like scaling which happened in the other 2 sections, and hence you don't need to <code>fit</code> your data. Now if we have a look at the created <code>DataFrame</code>:</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/05/image-9.png" class="kg-image" alt loading="lazy"><figcaption>Bucketized DataFrame</figcaption></figure><p>Now you might also want to know how many numbers are there in a particular bucket. So, I will do a <code>groupBy</code> on <code>bFeatures</code> column and retrieve the count of occurrences. The following code does that and displays my generated data:</p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image-10.png" class="kg-image" alt loading="lazy"></figure><p>Fairly easy, isn't it?</p><h2 id="text">Text</h2><p>There are two ways in which you can preprocess text-based data in Spark:</p><ul><li>Tokenize</li><li>TF-IDF</li></ul><p>To illustrate both of them, I will be using <code>sentencesDf</code> created using this code:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">val sentencesDf = Seq(
+    (1, "This is an introduction to Spark ML"),
+    (2, "MLLib includes libraries for classification and regression"),
+    (3, "It also contains supporting tools for pipelines")
+).toDF("id", "sentence")</code></pre><figcaption>Creating a <code>DataFrame</code> of sentences</figcaption></figure><h3 id="tokenize">Tokenize</h3><p>In tokenization, you map your string containing a sentence into a set of tokens, or words. As an Example, the sentence <em>"This is an introduction to Spark ML"</em> can be mapped into a list of 7 words - <code>{This, is, an, introduction, to, Spark, ML}</code>.</p><p>We will first import <code>Tokenizer</code> from the <code>org.apache.spark.ml.feature</code> package. Now an instance of this will need two parameters - input column and output column. Our input will be <code>sentence</code> and the output will be <code>words</code>, because that is what the <code>Tokenizer</code> will produce. Then we will apply <code>transform</code> on the sentences above.</p><p>Now, just like bucketing, we are not <code>fit</code>ting any data here. <code>Tokenizer</code> already knows its job - Split strings into the separate words. The above process is illustrated in the code below:</p><pre><code class="language-scala">val sentenceToken = new Tokenizer()
+    .setInputCol("sentence")
+    .setOutputCol("words")
+
+val sentenceTokenizedDf = sentenceToken.transform(sentencesDf)</code></pre><p>Now, if we have a look at our data:</p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image-11.png" class="kg-image" alt loading="lazy"></figure><p>The <code>words</code> column contains lists of words that have been broken up in the ways you would expect a regular expression pattern matching to break up a sentence into words - based on white space, punctuation, etc. </p><p>Easy, isn't it?</p><h3 id="term-frequency-inverse-document-frequency-tf-idf-">Term Frequency-Inverse Document Frequency (TF-IDF)</h3><p>Here we map text from a single, typically long string, to a vector, indicating the frequency of each word in a text relative to a group of texts such as a corpus. This transformation is widely used in text classification. </p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image-12.png" class="kg-image" alt loading="lazy"></figure><p>TF-IDF captures the intuition that infrequently used words are more useful for distinguishing categories of text than frequently used words. Considering the above figure as an example, <em>Normalizing </em>appears only once, <em>to</em> appears twice and so on. Like this, we go through all the documents in our corpus, which is nothing but a collection of documents. Then we count up how often a term appears across all of the documents. In this example <em>normalizing </em>is a very rare word. Whereas other words like <em>maps, data</em> and <em>to</em> show up more frequently. We use these two sets of counts and feed those two into the term frequency-inverse document frequency calculation. And that gives us our TF-IDF measures.</p><p>I will use the same <code>sentenceTokenizedDf</code> created above for this exercise as well. Just like other processes mentioned above, we will need to import a few things from <code>org.apache.spark.ml.feature</code> package - <code>HashingTF</code> (for hashing Term Frequency), <code>IDF</code> (for Inverse Document Frequency), <code>Tokenizer</code>.</p><p>First, I will create a <code>HashingTF</code> instance - which takes an input column (<code>words</code>), an output column (<code>rawFeatures</code>)  and the number of features to keep track of (<code>20</code>) as the parameters. Now we apply our <code>transform</code>ation on this and get a new <code>DataFrame</code>:</p><pre><code class="language-scala">val hashingTF = new HashingTF()
+    .setInputCol("words")
+    .setOutputCol("rawFeatures")
+    .setNumFeatures(20)
+
+val sentenceHashingFunctionTermFrequencyDf = hashingTF.transform(sentenceTokenizedDf)
+sentenceHashingFunctionTermFrequencyDf.show()</code></pre><p>Now if we have a look at our data, it has added an extra column which is of <code>Vector</code> type. It has mapped each word to an index, so for example, <em>this</em> maps to 1, <em>is </em>maps to 4, <em>an </em>-&gt; 5, and so on. </p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image-13.png" class="kg-image" alt loading="lazy"></figure><p>Now we're going to scale the <code>rawFeatures</code> vector values and we're going to scale them based on how often the words appear in the entire collection of sentences. To do this we're going to create an <code>IDF</code> instance. Again, we have to specify an input column (<code>rawFeatures</code>) and an output column (<code>idfFeatures</code>) as parameters.</p><p>Let's use the term frequency data we just calculated to <code>fit</code> the inverse document frequency model. And to do that I'm going to create an <code>idfModel</code>, and we're going to call the <code>idf</code> object I just created, and I'm going to fit it using our term frequency data. Then we apply the IDF <code>transform</code>ation to create a new <code>DataFrame</code> that has both the term frequency and the inverse document frequency transformations applied.</p><pre><code class="language-scala">val idf = new IDF()
+    .setInputCol("rawFeatures")
+    .setOutputCol("idfFeatures")
+
+val idfModel = idf.fit(sentenceHashingFunctionTermFrequencyDf)
+val tfIdfDf = idfModel.transform(sentenceHashingFunctionTermFrequencyDf)</code></pre><p>Now if we have a look at our data (I'm selecting only the <code>rawFeatures</code> and <code>idfFeatures</code> columns to fit in the screen):</p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image-14.png" class="kg-image" alt loading="lazy"></figure><p>Now we have a new column which contains the inverse document frequency features. These are measures of each word relative to how frequently they occur in the entire corpus. In our case our corpus is just three sentences.</p><h2 id="conclusion">CONCLUSION</h2><p>Preprocessing is indeed a tough challenge where you will have to know what kinds of data you might get and what kinds of processing you want to apply on your data. If not done properly, your machine learning models might not be of much use.</p>
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/09/untitled-3-.png"
+            alt="How to run Spark 3.0 applications on your GPU"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>

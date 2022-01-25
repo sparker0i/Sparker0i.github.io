@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Add git to existing Android projects</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/add-git-with-existing-android-projects/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/add-git-with-existing-android-projects/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Add git to existing Android projects" />
+    <meta property="og:description" content="Towards the end of first year and before the start of my second year, one of the problems I had while developing Simple Weather was I had formatted my laptop, and I got panicked as I no longer had the code I was working on. This depressed me. Luckily searching" />
+    <meta property="og:url" content="http://localhost:2368/add-git-with-existing-android-projects/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/wordpress/2018/03/git.png" />
+    <meta property="article:published_time" content="2018-03-29T00:42:46.000Z" />
+    <meta property="article:modified_time" content="2018-04-21T18:29:50.000Z" />
+    <meta property="article:tag" content="Android Project" />
+    <meta property="article:tag" content="Git" />
+    <meta property="article:tag" content="Java" />
+    <meta property="article:tag" content="Project" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Add git to existing Android projects" />
+    <meta name="twitter:description" content="Towards the end of first year and before the start of my second year, one of the problems I had while developing Simple Weather was I had formatted my laptop, and I got panicked as I no longer had the code I was working on. This depressed me. Luckily searching" />
+    <meta name="twitter:url" content="http://localhost:2368/add-git-with-existing-android-projects/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/wordpress/2018/03/git.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Android Project, Git, Java, Project" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    <meta property="og:image:width" content="686" />
+    <meta property="og:image:height" content="396" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Add git to existing Android projects",
+    "url": "http://localhost:2368/add-git-with-existing-android-projects/",
+    "datePublished": "2018-03-29T00:42:46.000Z",
+    "dateModified": "2018-04-21T18:29:50.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/wordpress/2018/03/git.png",
+        "width": 686,
+        "height": 396
+    },
+    "keywords": "Android Project, Git, Java, Project",
+    "description": "Towards the end of first year and before the start of my second year, one of the\nproblems I had while developing Simple Weather was I had formatted my laptop,\nand I got panicked as I no longer had the code I was working on. This depressed\nme. Luckily searching in my hard disk, I found an old backup, but it didn’t have\nnewer code. So I had realized then that I needed to have backups of my app at\nregular intervals of time. But doing so would have taken up a lot of system\nspace, and a lot of time t",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-android-project tag-git tag-java tag-project has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-android-project tag-git tag-java tag-project ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/android-project/">Android Project</a>
+            </section>
+
+            <h1 class="article-title">Add git to existing Android projects</h1>
+
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2018-03-29">Mar 29, 2018</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 4 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/wordpress/2018/03/git.png 300w,
+                            /content/images/size/w600/wordpress/2018/03/git.png 600w,
+                            /content/images/size/w1000/wordpress/2018/03/git.png 1000w,
+                            /content/images/size/w2000/wordpress/2018/03/git.png 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/wordpress/2018/03/git.png"
+                    alt="Add git to existing Android projects"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <!--kg-card-begin: html--><p>Towards the end of first year and before the start of my second year, one of the problems I had while developing Simple Weather was I had formatted my laptop, and I got panicked as I no longer had the code I was working on. This depressed me. Luckily searching in my hard disk, I found an old backup, but it didn&#8217;t have newer code. So I had realized then that I needed to have backups of my app at regular intervals of time. But doing so would have taken up a lot of system space, and a lot of time to back it up too. I needed another solution</p>
+<p>I was also fortunate to have been a member of our FOSS Club at that time (I still am), wherein I had learnt how to use Git. <span>Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people.</span><span> </span>In Noob terms, Git is used when you write a software, you periodically write down (commit, in terms of Git language) what all changes you did when you were writing the code, and push them to a repository (recommended to do periodically)</p>
+<p>One thing while seeing newbies push their Android apps source code to GitHub, I realized that they only push the necessary Java files they used to get the app running. There is a disadvantage to this method, if someone else wants to run your app, he cannot do it only on the basis of the Java files, he will need the whole working project &#8211; starting from the Java files, all the way upto the Layout resource XMLs, Gradle files and the resources inside your project. So I will be telling how to push your existing Android projects to git properly.</p>
+<p>PS. This is only for beginners. For intermediate and advanced guys, there are lots of things like CI and Code coverage which I will not be discussing here.</p>
+<h3>FIRST THINGS FIRST</h3>
+<ul>
+<li>Learn how Git functions from a tutorial (I will prefer <a href="http://try.github.io">this</a> one)</li>
+<li>Install git on your laptop (Google it guys, it is your best friend)</li>
+<li>Create a repository on GitHub or whatever site that supports hosting git repositories</li>
+<li>Name it according to the project (in our case, the app) that you are developing</li>
+</ul>
+<p>&nbsp;</p>
+<h3>INITIALIZE GIT IN YOUR LOCAL DIRECTORY</h3>
+<p>Now that you have created a git repository, navigate to the root directory of your project folder. Now there will be a lot of folders inside your project. Which one is the root folder?<a href="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-4-1.png"><img src="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-4-1.png" alt="" class="alignleft size-full wp-image-327" width="842" height="472" srcset="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-4-1.png 842w, http://localhost:2368/content/images/wordpress/2018/03/Screenshot-4-1-300x168.png 300w, http://localhost:2368/content/images/wordpress/2018/03/Screenshot-4-1-768x431.png 768w" sizes="(max-width: 842px) 100vw, 842px" /></a></p>
+<p>&nbsp;</p>
+<p>Now there will be a lot of build.gradle files in your project (depending on the number of modules you have, remember app shown here is only one such module, you may have many such more modules)</p>
+<p>Your project root folder will be the one which contains a build.gradle, along with gradle.properties, settings.gradle and the gradle executable, depending upon which OS you are using. If you see all these files inside a folder, good that is your project root.</p>
+<p>Hopefully you have installed Git on your system by now. If you are on Windows, Right click on your project root folder, and you will see an option to open &#8220;Git Bash Here&#8221;. Select that. If you are on Linux/Mac, right click on project root folder, select open in terminal.</p>
+<p>Now given that you have not initialized git here before, follow the steps below:</p>
+<ul>
+<li>Given you are in the terminal/CMD, type
+<pre class="lang:sh decode:true ">git init</pre>
+<p>This will initialize a git repository on your local machine</li>
+<li>Get your project to build fine without errors before proceeding to the next step (It would have a bad impression to not getting your first commit build properly)</li>
+<li>
+<pre class="lang:default decode:true ">git add .</pre>
+<p>Executing this command will properly add all the files in your project to your local git repository</li>
+<li>
+<pre class="lang:default decode:true ">git commit -m "First Commit"</pre>
+<p>That is the general way to do a first commit, but there are no issues if you want a different Commit message.</li>
+<li>Copy the URL of the repo you created on GitHub. Then do these two steps
+<pre class="lang:default decode:true ">git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git
+git push origin master</pre>
+<p>Congratulations, now you have your first backup of your app stored safely in the cloud (unless there is a physical calamity that causes harm to servers, but they will have backup servers everywhere)</li>
+<li>After you push your code into GitHub, it should probably look like this<a href="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5.png"><img src="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5.png" alt="" class="alignleft size-full wp-image-328" width="1366" height="768" srcset="http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5.png 1366w, http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5-300x169.png 300w, http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5-768x432.png 768w, http://localhost:2368/content/images/wordpress/2018/03/Screenshot-5-1024x576.png 1024w" sizes="(max-width: 1366px) 100vw, 1366px" /></a></li>
+</ul>
+<h3></h3>
+<h3></h3>
+<p>&nbsp;</p>
+<h3></h3>
+<h3>HOW TO PROCEED FROM HERE</h3>
+<ul>
+<li>Make sure to note of the small changes that you do inside your app. Whenever you change a Java file make sure you note it in your mind what you have done. Whenever you have changed an XML layout, note that in your mind too.</li>
+<li><strong>Do not change too many files at once</strong> unless absolutely necessary</li>
+<li>Make sure the changes you do are able to successfully build your app</li>
+<li>Make sure the changes you do are able to run successfully on your Android device/emulator</li>
+<li>After you make sure that the changes you do have worked, commit them like you did above.</li>
+</ul>
+<h3></h3>
+<h3>CONCLUSION</h3>
+<p>Following such general guidelines will help you when you work with not only Android projects, but with other projects as well.</p>
+<p>Hope that this post provided a good insight to introduction to working with Git on Android.</p>
+<!--kg-card-end: html-->
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/09/untitled-3-.png"
+            alt="How to run Spark 3.0 applications on your GPU"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>

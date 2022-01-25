@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Install NVidia drivers the right way on Linux</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/install-nvidia-drivers-the-right-way-on-linux/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/install-nvidia-drivers-the-right-way-on-linux/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Install NVidia drivers the right way on Linux" />
+    <meta property="og:description" content="Just a couple of months back I had bought a new laptop with Intel Core i5-6200U processor and NVIDIA GeForce 930M GPU. And being a first-timer on Linux, the first thing I tried to do was to install the latest graphic drivers by Intel and Nvidia, because that&amp;#8217;s" />
+    <meta property="og:url" content="http://localhost:2368/install-nvidia-drivers-the-right-way-on-linux/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/wordpress/2017/10/nvidia-header.png" />
+    <meta property="article:published_time" content="2016-05-16T15:11:05.000Z" />
+    <meta property="article:modified_time" content="2018-03-25T14:09:54.000Z" />
+    <meta property="article:tag" content="Graphics" />
+    <meta property="article:tag" content="Linux" />
+    <meta property="article:tag" content="OS" />
+    <meta property="article:tag" content="Ubuntu" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Install NVidia drivers the right way on Linux" />
+    <meta name="twitter:description" content="Just a couple of months back I had bought a new laptop with Intel Core i5-6200U processor and NVIDIA GeForce 930M GPU. And being a first-timer on Linux, the first thing I tried to do was to install the latest graphic drivers by Intel and Nvidia, because that&amp;#8217;s" />
+    <meta name="twitter:url" content="http://localhost:2368/install-nvidia-drivers-the-right-way-on-linux/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/wordpress/2017/10/nvidia-header.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Graphics, Linux, OS, Ubuntu" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="576" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Install NVidia drivers the right way on Linux",
+    "url": "http://localhost:2368/install-nvidia-drivers-the-right-way-on-linux/",
+    "datePublished": "2016-05-16T15:11:05.000Z",
+    "dateModified": "2018-03-25T14:09:54.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/wordpress/2017/10/nvidia-header.png",
+        "width": 1024,
+        "height": 576
+    },
+    "keywords": "Graphics, Linux, OS, Ubuntu",
+    "description": "Just a couple of months back I had bought a new laptop with Intel Core i5-6200U\nprocessor and NVIDIA GeForce 930M GPU. And being a first-timer on Linux, the\nfirst thing I tried to do was to install the latest graphic drivers by Intel and\nNvidia, because that’s what most noobs do on Windows too.\n\n [http://localhost:2368/content/images/wordpress/2017/10/nvidia-linux.jpg]\n\nSo, being a Linux noobie at that time, I googled this thing and I ended up here\n(AskUbuntu being a reputed site, became my firs",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-graphics tag-linux tag-os tag-ubuntu has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-graphics tag-linux tag-os tag-ubuntu ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/graphics/">Graphics</a>
+            </section>
+
+            <h1 class="article-title">Install NVidia drivers the right way on Linux</h1>
+
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2016-05-16">May 16, 2016</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 4 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/wordpress/2017/10/nvidia-header.png 300w,
+                            /content/images/size/w600/wordpress/2017/10/nvidia-header.png 600w,
+                            /content/images/size/w1000/wordpress/2017/10/nvidia-header.png 1000w,
+                            /content/images/size/w2000/wordpress/2017/10/nvidia-header.png 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/wordpress/2017/10/nvidia-header.png"
+                    alt="Install NVidia drivers the right way on Linux"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <!--kg-card-begin: html--><p>Just a couple of months back I had bought a new laptop with Intel Core i5-6200U processor and NVIDIA GeForce 930M GPU. And being a first-timer on Linux, the first thing I tried to do was to install the latest graphic drivers by Intel and Nvidia, because that&#8217;s what most noobs do on Windows too.</p>
+<p><a href="http://localhost:2368/content/images/wordpress/2017/10/nvidia-linux.jpg"><img src="http://localhost:2368/content/images/wordpress/2017/10/nvidia-linux.jpg" alt="" class="alignnone size-full wp-image-17" width="600" height="360" srcset="http://localhost:2368/content/images/wordpress/2017/10/nvidia-linux.jpg 600w, http://localhost:2368/content/images/wordpress/2017/10/nvidia-linux-300x180.jpg 300w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>So, being a Linux noobie at that time, I googled this thing and I ended up here (AskUbuntu being a reputed site, became my first choice among the search results). I did what the solution said, and ended up screwing my distro, it wouldn&#8217;t proceed past the login screen. I tried doing what a few other sites were telling, all ending up the same road. I tried using Ubuntu&#8217;s own Software Updater app too, ending on the same note again.</p>
+<p>Until one day I discovered that I could directly install the Graphics Driver from the Terminal without any hassles (sigh -_-)</p>
+<p>&nbsp;</p>
+<h3>WHAT NOT TO DO</h3>
+<p>These are what I tried ending up on the same road (not going past the Login screen despite the correct credentials)</p>
+<ul>
+<li>Trying to update via .run files provided by NVIDIA&#8217;s official site</li>
+<li>Trying to update via Ubuntu&#8217;s very own Software and Updates app.</li>
+<li>Having the following two repos and installing the driver via terminal</li>
+</ul>
+<pre class="attributes" lang="ruby">ppa:xorg-edgers/ppa
+ppa:mamarley/nvidia
+</pre>
+<ul>
+<li>Updating the kernel (unless you install the drivers)</li>
+</ul>
+<p>&nbsp;</p>
+<h3>WHAT TO DO</h3>
+<p>Now it&#8217;s a really simple process on Ubuntu 16.04 (Doing this on 15.10 was hell, checked the X Server Log Files and didn&#8217;t get anything special to boast about)</p>
+<p>Run these steps:</p>
+<ul>
+<li></li>
+</ul>
+<pre class="attributes" lang="ruby">sudo apt update
+</pre>
+<ul>
+<li>As a root user, run this command:</li>
+</ul>
+<pre class="attributes" lang="ruby">lshw -numeric -C display
+</pre>
+<p>OR</p>
+<p>&lt;</p>
+<p>pre class=&#8221;attributes&#8221; lang=&#8221;ruby&#8221;&gt;<br />
+lspci -vnn | grep VGA</p>
+<ul>
+<li>The output will show your NVidia model number. Example:</li>
+</ul>
+<pre class="attributes" lang="ruby">def print_hi(name)
+  puts "Hi, #{name}"
+end
+print_hi('Tom')
+#=&gt; prints 'Hi, Tom' to STDOUT.
+</pre>
+<pre class="attributes" lang="sh">*-display
+  description: VGA compatible controller
+  product: Sky Lake Integrated Graphics [8086:1916]
+  vendor: Intel Corporation [8086]
+  physical id: 2
+  bus info: pci@0000:00:02.0
+  version: 07
+  width: 64 bits
+  clock: 33MHz
+  capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
+  configuration: driver=i915_bpo latency=0
+  resources: irq:128 memory:dd000000-ddffffff memory:b0000000-bfffffff ioport:f000(size=64)
+*-display
+  description: 3D controller
+  product: GM108M [GeForce 930M] [10DE:1346]
+  vendor: NVIDIA Corporation [10DE]
+  physical id: 0
+  bus info: pci@0000:01:00.0
+  version: a2
+  width: 64 bits
+  clock: 33MHz
+  capabilities: pm msi pciexpress bus_master cap_list rom
+  configuration: driver=nvidia latency=0
+  resources: irq:131 memory:de000000-deffffff memory:c0000000-cfffffff memory:d0000000-d1ffffff    ioport:e000(size=128) memory:df000000-df07ffff
+</pre>
+<ul>
+<li>The Model used by my system is GeForce 930M. Next, we will find a correct NVIDIA driver within the Ubuntu repos using this info. But before that, navigate <a href="http://www.nvidia.com/Download/index.aspx">here</a> and enter details. Example:</li>
+</ul>
+<p><a href="http://localhost:2368/content/images/wordpress/2017/10/nvidia_search_ubuntu_16_04.png"><img src="http://localhost:2368/content/images/wordpress/2017/10/nvidia_search_ubuntu_16_04.png" alt="" class="alignnone size-full wp-image-18" width="712" height="242" srcset="http://localhost:2368/content/images/wordpress/2017/10/nvidia_search_ubuntu_16_04.png 712w, http://localhost:2368/content/images/wordpress/2017/10/nvidia_search_ubuntu_16_04-300x102.png 300w" sizes="(max-width: 712px) 100vw, 712px" /></a></p>
+<p>-After a successful search, take a note of the driver number</p>
+<pre class="attributes" lang="ruby">Version:  361.42
+Release Date:  2016.3.30
+Operating System:  Linux 64-bit
+Language:  English (US)
+File Size:  82.74 MB 
+</pre>
+<p>-Then install the corresponding driver</p>
+<pre class="attributes" lang="ruby">sudo apt-get install nvidia-361
+...
+Done.
+
+nvidia_361:
+Running module version sanity check.
+ - Original module
+   - No original module exists within this kernel
+ - Installation
+   - Installing to /lib/modules/4.4.0-18-generic/updates/dkms/
+
+nvidia_361_modeset.ko:
+Running module version sanity check.
+ - Original module
+   - No original module exists within this kernel
+ - Installation
+   - Installing to /lib/modules/4.4.0-18-generic/updates/dkms/
+
+nvidia_361_uvm.ko:
+Running module version sanity check.
+ - Original module
+   - No original module exists within this kernel
+ - Installation
+   - Installing to /lib/modules/4.4.0-18-generic/updates/dkms/
+
+depmod........
+
+DKMS: install completed.
+Setting up ocl-icd-libopencl1:amd64 (2.2.8-1) ...
+Setting up nvidia-opencl-icd-361 (361.42-0ubuntu1) ...
+Setting up bbswitch-dkms (0.8-3ubuntu1) ...
+Loading new bbswitch-0.8 DKMS files...
+First Installation: checking all kernels...
+Building only for 4.4.0-18-generic
+Building initial module for 4.4.0-18-generic
+Done.
+
+bbswitch:
+Running module version sanity check.
+ - Original module
+   - No original module exists within this kernel
+ - Installation
+   - Installing to /lib/modules/4.4.0-18-generic/updates/dkms/
+
+depmod....
+
+DKMS: install completed.
+Setting up nvidia-prime (0.8.2) ...
+Setting up screen-resolution-extra (0.17.1) ...
+Setting up nvidia-settings (361.42-0ubuntu1) ...
+Setting up vdpau-driver-all:amd64 (1.1.1-3ubuntu1) ...
+Processing triggers for libc-bin (2.23-0ubuntu2) ...
+Processing triggers for initramfs-tools (0.122ubuntu6) ...
+update-initramfs: Generating /boot/initrd.img-4.4.0-18-generic
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for dbus (1.10.6-1ubuntu3) ...
+</pre>
+<ul>
+<li>Now you can reboot your system. Then after loading Ubuntu, you can load the X Server Settings app:</li>
+</ul>
+<p><a href="http://localhost:2368/content/images/wordpress/2017/10/nvidia_configuration_menu_ubuntu_16_04.png"><img src="http://localhost:2368/content/images/wordpress/2017/10/nvidia_configuration_menu_ubuntu_16_04.png" alt="" class="alignnone size-full wp-image-16" width="668" height="452" srcset="http://localhost:2368/content/images/wordpress/2017/10/nvidia_configuration_menu_ubuntu_16_04.png 668w, http://localhost:2368/content/images/wordpress/2017/10/nvidia_configuration_menu_ubuntu_16_04-300x203.png 300w" sizes="(max-width: 668px) 100vw, 668px" /></a></p>
+<p>&nbsp;</p>
+<h3>CONCLUSION</h3>
+<p>So that&#8217;s it, folks. This is the safest and a recommended way to install NVIDIA drivers for Linux. And I repeat, <strong>do not install the drivers using the .run file.</strong></p>
+<!--kg-card-end: html-->
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/09/untitled-3-.png"
+            alt="How to run Spark 3.0 applications on your GPU"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>

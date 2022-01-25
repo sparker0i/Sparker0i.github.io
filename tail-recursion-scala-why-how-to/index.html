@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Tail Recursion: Why and How-to Use in Scala</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <meta name="description" content="Read my blog post to know more about the advantages of tail recursion, why and how to use it in Scala." />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/tail-recursion-scala-why-how-to/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/tail-recursion-scala-why-how-to/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Tail Recursion: Why and How-to Use in Scala" />
+    <meta property="og:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala." />
+    <meta property="og:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" />
+    <meta property="article:published_time" content="2020-05-07T19:45:00.000Z" />
+    <meta property="article:modified_time" content="2020-09-27T08:16:34.000Z" />
+    <meta property="article:tag" content="Scala" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tail Recursion: Why and How-to Use in Scala" />
+    <meta name="twitter:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala." />
+    <meta name="twitter:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Scala" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    <meta property="og:image:width" content="379" />
+    <meta property="og:image:height" content="212" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Tail Recursion: Why and How-to Use in Scala",
+    "url": "http://localhost:2368/tail-recursion-scala-why-how-to/",
+    "datePublished": "2020-05-07T19:45:00.000Z",
+    "dateModified": "2020-09-27T08:16:34.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png",
+        "width": 379,
+        "height": 212
+    },
+    "keywords": "Scala",
+    "description": "Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-scala has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-scala ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/scala/">Scala</a>
+            </section>
+
+            <h1 class="article-title">Tail Recursion: Why and How-to Use in Scala</h1>
+
+            <p class="article-excerpt">Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala.</p>
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2020-05-08">May 8, 2020</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 4 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png 300w,
+                            /content/images/size/w600/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png 600w,
+                            /content/images/size/w1000/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png 1000w,
+                            /content/images/size/w2000/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png"
+                    alt="Tail Recursion: Why and How-to Use in Scala"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <p>In the below code, I have written a recursive function that multiplies all the natural numbers up to the number passed as a parameter to the function. As you might have guessed, this is nothing but computing the factorial of a particular number.</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def recursiveProd(x: Int): BigInt = {
+    if (x &lt;= 1) 
+        return 1
+    else 
+        return x * recursiveProd(x-1)
+}</code></pre><figcaption>Recursive Factorial Program</figcaption></figure><p>Let us see how this function is being executed as a whole assuming we executed <code>recursiveProd(5)</code>:</p><figure class="kg-card kg-code-card"><pre><code>recursiveProd(5)  
+5 * recursiveProd(4)  
+    (4 * recursiveProd(3))  
+         (3 * recursiveProd(2))
+              (2 * recursiveProd(1))  
+                   1 
+120</code></pre><figcaption>Recursive Factorial Steps</figcaption></figure><p>From above, each recursive call has to be completed first before the actual work of calculating the product begins. Each recursive call saves the current state, and proceeds to call the next recursive function. This happens repeatedly until the base case is reached. In between, you might also encounter the Stack Overflow error. </p><p>So, in each step you execute 2 steps, retrieve the current value and the value from the next stage (as a recursive call), and then multiply them. Subsequent recursive calls will do the same. If you can visualize this correctly, you will notice this recursive call was completed in <strong>14 computations </strong>(4 multiplications, 5 recursive calls, 5 returning values), with computations happening in each step.</p><h3 id="tail-recursion">Tail Recursion</h3><p>Now let’s consider Tail Recursion. In Tail Recursion, all the processing related to the recursive function must finish before the recursive call takes place. This means that <strong>if a function is tail-recursive, the last action is a call to itself</strong>.</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def tailRecursiveProd(x: Int, currentTotal: BigInt): BigInt = {
+    if (x &lt;= 1) 
+        return currentTotal
+    else 
+        return tailRecursiveProd(x - 1, currentTotal * x)
+}</code></pre><figcaption>Tail-Recursive Factorial Program</figcaption></figure><p>In this scenario, despite there being a multiplication operation, it happens when the argument is passed to the next recursive call. In short, we send the current state of the recursive call to the next state, and the same process will be repeated until the base case is reached. Let us see how this is executed:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">recursiveProd(5,1)
+recursiveProd(4,5)
+recursiveProd(3,20)
+recursiveProd(2,60)
+recursiveProd(1,120)
+120</code></pre><figcaption>Tail-Recursive Factorial Steps</figcaption></figure><p>In this way, we can save up additional stack memory which would've otherwise be wasted to compute the multiplications at every return step. Thus, this implementation only takes 10 computations (5 recursive calls, 5 returning values). This is equivalent of you using a loop to process the factorial.</p><p>Thus, you should always try and convert your recursive function into a tail recursive function wherever possible.</p><h3 id="tail-recursion-in-scala">Tail Recursion in Scala</h3><p>One good thing about Scala is that it automatically recognizes two types of tail-recursive methods automatically and optimizes them. These types are:</p><ol><li>Methods within an <code>object</code></li><li>Methods defined as <code>final</code></li></ol><p>Sadly, if you write a non-<code>final</code> tail-recursive function inside a <code>class</code>, or even a <code>case class</code>, it will not be automatically optimized by the Scala Compiler because a <code>class</code> can be <code>extend</code>ed and these methods can be <code>override</code>n. Consider my code given below:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">object Bm {
+    def nTailRecursion(n: Int): Int = {
+        if (n == 0) 1 else nTailRecursion(n - 1)
+    }
+}
+
+case class Bm() {
+    def tailRecursion(n: Int): Int = {
+        if (n == 0) 1 else tailRecursion(n - 1)
+    }
+
+    final def tailsRecursion(n: Int): Int = {
+        if (n == 0) 1 else tailsRecursion(n - 1)
+    }
+}</code></pre><figcaption>Illustrating various cases of tail-recursive methods</figcaption></figure><p>You can see that all these functions are doing the same task. Now:</p><ol><li>Start a Scala REPL (Install Scala on your machine, then type <code>scala</code> on your command line/terminal and press Enter)</li><li>Type <code>:paste</code> and press Enter</li><li>Paste the code snippet above</li><li>Press <code>Ctrl-D</code> to exit the paste mode</li></ol><p>Then, try running <code>Bm.nTailRecursion(60000)</code> and <code>Bm().tailsRecursion(60000)</code>. I've tried that on my current laptop with an Intel i7-8750H processor and 16GB RAM, and both of them worked fine. Now, when you try running <code>Bm().tailRecursion(60000)</code>, you see a familiar <code>java.lang.StackOverflowError</code> which usually occurs with recursive function:</p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/05/image.png" class="kg-image" alt loading="lazy"></figure><p>Sure, you could play around with the JVM memory limits and possibly execute this function properly. You must always remember that memory is an intensive resource, and non-availability of memory might crash other programs, as well as your current program.</p><p>Fortunately, Scala provides the <code>@tailrec</code> annotation to denote that a method is actually tail-recursive. First you will have to import <code>scala.annotation.tailrec</code> and place that annotation before the function you want to mark as tail-recursive. Place this annotation before <code>tailRecursion()</code> inside the <code>case class</code> and now copy-paste inside the REPL and try again. This time it won't throw the dreaded <code><code>java.lang.StackOverflowError</code></code> Exception.</p><h3 id="convert-a-recursive-function-to-a-tail-recursive-function">Convert a recursive function to a tail-recursive function</h3><p>In some cases, you might want to retain the original method's signature (eg. Factorial). This can be done using the following steps:</p><p>1. Create a second function</p><p>Within the <code>recursiveProd</code> as defined in the first code piece above, we now define another method, <code>cumulativeRecursion</code> with two parameters: <code>n</code>, our number and <code>res</code>, the result of recursion. We retain the algorithm of the first method as is. At this point our new method looks like:</p><pre><code class="language-scala">def recursiveProd(n: Int): Int = {
+    def cumulativeRecursion(n: Int, res: Int): Int = {
+        if (n &lt;= 1) 1
+        else n * recursiveProd(n - 1)
+    }
+}</code></pre><p>2. Modify the second method's algorithm</p><p>We will now utilize the accumulator we've just created, <code>res</code> and modify the function such that the base case returns the accumulated value and the other case recursively calls the new method again:</p><pre><code>def recursiveProd(n: Int): Int = {
+    def cumulativeRecursion(n: Int, res: Int): Int = {
+        if (n &lt;= 1) res
+        else cumulativeRecursion(n - 1, res * n)
+    }
+}</code></pre><p>3. Annotate the second method and call the new method</p><p>We will now annotate our new method with <code>@tailrec</code> as shown earlier and we will now call this method from our original method:</p><pre><code class="language-scala">def recursiveProd(n: Int): Int = {
+    @tailrec def cumulativeRecursion(n: Int, res: Int): Int = {
+        if (n &lt;= 1) res
+        else cumulativeRecursion(n - 1, res * n)
+    }
+    cumulativeRecursion(n, 1)
+}</code></pre><p>Hence, you retain your method's original signature, as well as converted it into a tail-recursive call (Though this will add 1 extra stack call to the new function).</p><h3 id="conclusion">CONCLUSION</h3><p>In this post, I have:</p><ul><li>Defined Tail Recursion</li><li>Introduced <code>@tailrec</code> annotation</li><li>Shown a formula to convert a recursive function into a tail-recursive one.</li></ul><p>Hope you have enjoyed this post. Do follow my profiles on <a href="https://www.linkedin.com/in/sparker0i">LinkedIn</a>, <a href="https://github.com/Sparker0i">GitHub</a> and <a href="https://twiiter.com/Sparker0i">Twitter</a>.</p><p>Ciao, until the next post.</p><p>Reference: <a href="https://alvinalexander.com/scala/fp-book/tail-recursive-algorithms/">Tail Recursive Algorithms</a></p>
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/09/untitled-3-.png"
+            alt="How to run Spark 3.0 applications on your GPU"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>

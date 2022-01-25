@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>Spark ML: K Nearest Neighbours</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        :root {
+            --button-bg-color: #ffffff;
+            --button-text-color: var(--color-darkgrey);
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=7047d688c8" />
+
+    <meta name="description" content="Learn how you can write a KNN algorithm from scratch and modify it for use with larger datasets in Spark" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:2368/spark-machine-learning-knn/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://localhost:2368/spark-machine-learning-knn/amp/" />
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Spark ML: K Nearest Neighbours" />
+    <meta property="og:description" content="Learn how you can write a KNN algorithm from scratch and modify it for use with larger datasets in Spark" />
+    <meta property="og:url" content="http://localhost:2368/spark-machine-learning-knn/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/2020/04/mllib-1.jpg" />
+    <meta property="article:published_time" content="2020-04-19T05:41:03.000Z" />
+    <meta property="article:modified_time" content="2020-05-08T17:18:44.000Z" />
+    <meta property="article:tag" content="Spark" />
+    <meta property="article:tag" content="Spark ML" />
+    <meta property="article:tag" content="Scala" />
+    <meta property="article:tag" content="Big Data" />
+    <meta property="article:tag" content="Machine Learning" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Spark ML: K Nearest Neighbours" />
+    <meta name="twitter:description" content="Learn how you can write a KNN algorithm from scratch and modify it for use with larger datasets in Spark" />
+    <meta name="twitter:url" content="http://localhost:2368/spark-machine-learning-knn/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/04/mllib-1.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Aaditya Menon" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Spark, Spark ML, Scala, Big Data, Machine Learning" />
+    <meta name="twitter:site" content="@Sparker0i" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="315" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "http://localhost:2368/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "url": "http://localhost:2368/author/sparker0i/",
+        "sameAs": []
+    },
+    "headline": "Spark ML: K Nearest Neighbours",
+    "url": "http://localhost:2368/spark-machine-learning-knn/",
+    "datePublished": "2020-04-19T05:41:03.000Z",
+    "dateModified": "2020-05-08T17:18:44.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2020/04/mllib-1.jpg",
+        "width": 600,
+        "height": 315
+    },
+    "keywords": "Spark, Spark ML, Scala, Big Data, Machine Learning",
+    "description": "Learn how you can write a KNN algorithm from scratch and modify it for use with larger datasets in Spark",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.33" />
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <script defer src="https://unpkg.com/@tryghost/portal@~1.14.0/umd/portal.min.js" data-ghost="http://localhost:2368/" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style>
+    <script defer src="/public/cards.min.js?v=7047d688c8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=7047d688c8">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7XJJR5L4E3');
+</script>
+<meta property="fb:pages" content="110085507196751" />
+<meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
+<script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
+
+</head>
+<body class="post-template tag-spark tag-spark-ml tag-scala tag-big-data tag-machine-learning has-sans-body">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head has-cover">
+        <nav class="gh-head-inner inner gh-container">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="http://localhost:2368">
+                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
+                </a>
+                <a class="gh-burger" role="button">
+                    <div class="gh-burger-box">
+                        <div class="gh-burger-inner"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
+    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <div class="gh-social">
+                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
+                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+                </div>
+
+                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+    <article class="article post tag-spark tag-spark-ml tag-scala tag-big-data tag-machine-learning ">
+
+        <header class="article-header gh-canvas">
+
+            <section class="article-tag">
+                <a href="http://localhost:2368/tag/spark/">Spark</a>
+            </section>
+
+            <h1 class="article-title">Cool Spark ML: K Nearest Neighbors</h1>
+
+            <p class="article-excerpt">Learn how you can write a KNN algorithm from scratch and modify it for use with larger datasets in Spark</p>
+
+            <div class="article-byline">
+                <section class="article-byline-content">
+                    <ul class="author-list">
+                        <li class="author-list-item">
+                            <a href="/author/sparker0i/" class="author-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                        </li>
+                    </ul>
+                    <div class="article-byline-meta">
+                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
+                        <div class="byline-meta-content">
+                            <time class="byline-meta-date" datetime="2020-04-19">Apr 19, 2020</time>
+                            <span class="byline-reading-time"><span class="bull">&bull;</span> 7 min read</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/content/images/size/w300/2020/04/mllib-1.jpg 300w,
+                            /content/images/size/w600/2020/04/mllib-1.jpg 600w,
+                            /content/images/size/w1000/2020/04/mllib-1.jpg 1000w,
+                            /content/images/size/w2000/2020/04/mllib-1.jpg 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/content/images/size/w2000/2020/04/mllib-1.jpg"
+                    alt="Cool Spark ML: K Nearest Neighbors"
+                />
+            </figure>
+        </header>
+
+        <section class="gh-content gh-canvas">
+            <p><em>Note: This article is the first of the Series: Cool Spark ML. Other parts are coming soon.</em></p><p>I had taken up a few machine learning courses in my college throughout 2018. Most of the problems there were solved using Python and the necessary libraries - NumPy, Pandas, Scikit-Learn and Matplotlib. With my daily work at IBM now requiring me to use Scala and Spark, I decided to use my free time during the lockdown to try out Spark ML.</p><p><em>Note: All the codes in the Cool Spark ML Series will be available on <a href="https://github.com/Sparker0i/Cool-Spark-ML">my GitHub repo</a></em></p><h3 id="intro-to-spark-ml">Intro to Spark ML</h3><p>As the name suggests, Spark ML is the Machine Learning library consisting of common Machine learning algorithms - classification, regression, clustering etc.</p><h3 id="why-spark-ml">Why Spark ML?</h3><p>Pandas - a Python library - won’t work every time. It is a single machine tool, so it's constrained by the machine's limits. Moreover, pandas doesn’t have any parallelism built in, which means it uses only one CPU core. You may hit a dead-end on datasets of the size of a few gigabytes. Pandas won't help if you want to work on very big datasets.</p><p>We are now in the Big Data era, where gigabytes of data are generated every few seconds. Such datasets will require powerful systems to run even the basic machine learning algorithms. The cost of getting such a powerful system will be huge, as well as the costs to scale them up. With distributed computers, such calculations can be sent to multiple low-end machines, which prevents the cost of getting a single high-end machine.</p><p>This is where Spark kicks in. Spark has the concept of <code>DataFrame</code> (now deprecated in favor of Datasets), which behaves very similar to how a Pandas <code>DataFrame</code> would do, including having very similar APIs too. The advantage of using Spark <code>DataFrame</code> is that it was designed from ground-up to support Big Data. Spark can also distribute such <code>DataFrame</code>s across multiple machines and collect the calculated results.</p><h3 id="knn-k-nearest-neighbors">KNN: K-Nearest Neighbors</h3><p>The process in KNN is pretty simple. You load your entire dataset first, each of which will have input columns and one output column. This is then split into a training set and a testing set. You then use your training set to train your model, and then use the testing set to predict the output column value by testing it against the model. You then compare the actual and the predicted target values and calculate the accuracy of your model.</p><h3 id="problem-definition">Problem Definition</h3><p>We are going to train a model to predict the famous <a href="http://archive.ics.uci.edu/ml/datasets/iris">Iris dataset</a>. The Iris Flower Dataset involves predicting the flower species given measurements of iris flowers.</p><p>It is a multiclass classification problem. The number of observations for each class is the same. The dataset is small in size with only 150 rows with 4 input variables and 1 output variable.</p><p>The 4 features are described as follows:</p><ol><li>Sepal-Length, in cm</li><li>Sepal-Width, in cm</li><li>Petal-Length, in cm</li><li>Petal-Width, in cm</li></ol><h3 id="prerequisites">Prerequisites</h3><ol><li>Create a Scala project in IntelliJ IDEA based on SBT</li><li>Select Scala version 2.11.12</li><li>Include <code>spark-core</code>, <code>spark-sql</code> and <code>spark-ml</code> 2.4.5 as library dependencies in your <code>build.sbt</code></li></ol><h3 id="knn-steps">KNN Steps</h3><p>In this blog post, I will be developing KNN algorithm from scratch. The process to perform KNN can be broken down into 3 easy steps:</p><ol><li>Calculate Euclidean Distance</li><li>Get Nearest Neighbors</li><li>Make Predictions</li></ol><h3 id="step-1-calculate-euclidean-distance">Step 1: Calculate Euclidean Distance</h3><p>The first step will be to calculate the distance between two rows in a Dataset. Rows of data are mostly made up of numbers and an easy way to calculate the distance between two rows or vectors of numbers is to draw a straight line.</p><p>Euclidean Distance is calculated as the square root of the sum of the squared differences between the two vectors, as given in the image below:</p><!--kg-card-begin: html--><a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\bg_white&space;{\color{Red}&space;$$dist_{x_1,x_2}&space;=&space;\sqrt{\sum_{i=0}^{N}&space;({x_1_i&space;-&space;x_2_i})^2}.$$}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;\bg_white&space;{\color{Red}&space;$$dist_{x_1,x_2}&space;=&space;\sqrt{\sum_{i=0}^{N}&space;({x_1_i&space;-&space;x_2_i})^2}.$$}" title="{\color{Red} $$dist_{p_1,p_2} = \sqrt{\sum_{i=0}^{N} ({x_1_i - x_2_i})^2}.$$}" /></a><!--kg-card-end: html--><p>Where <code>x1</code> is the first row of data, <code>x2</code> is the second row of data, and <code>i</code> is a specific index for a column as we sum across all columns. Smaller the value, more similar will be the two rows.</p><p>Since we will be reading our data and transforming it using Spark, to compute distances between two <code>Row</code>s in a <code>DataFrame</code>, we write the function below in Scala:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def computeEuclideanDistance(row1: Row, row2: Row): Double = {
+    var distance = 0.0
+    for (i &lt;- 0 until row1.length - 1) {
+        distance += math.pow(row1.getDouble(i) - row2.getDouble(i), 2)
+    }
+    math.sqrt(distance)
+}</code></pre><figcaption>Code to compute Euclidean Distance</figcaption></figure><p>You can see that the function assumes that the last column in each row is an output value which is ignored from the distance calculation.</p><h3 id="step-2-get-nearest-neighbors">Step 2: Get Nearest Neighbors</h3><p>Neighbors for a new piece of data in the dataset are the k closest instances, as defined by our distance measure. To locate the neighbors for a new piece of data within a dataset we must first calculate the distance between each record in the dataset to the new piece of data. We can do this using our distance function prepared above.</p><p>We can do this by keeping track of the distance for each record in the dataset as a tuple, sort the list of tuples by the distance, and then retrieve the neighbors. The below function does this job in Scala:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def getNeighbours(trainSet: Array[Row], testRow: Row, k: Int): List[Row] = {
+    var distances = mutable.MutableList[(Row, Double)]()
+    trainSet.foreach{trainRow =&gt;
+        val dist = computeEuclideanDistance(trainRow, testRow)
+        val x = (trainRow, dist)
+        distances += x
+    }
+    distances = distances.sortBy(_._2)
+    var neighbours = mutable.MutableList[Row]()
+
+    for (i &lt;- 1 to k) {
+        neighbours += distances(i)._1
+    }
+    neighbours.toList
+}</code></pre><figcaption>Retrieve The k nearest neighbors for a new data element</figcaption></figure><h3 id="step-3-make-predictions">Step 3: Make Predictions</h3><p>The most similar neighbors collected from the training dataset can be used to make predictions. In the case of classification, we can return the most represented output value (Class) among the neighbors.</p><p>We would first map the class values to the number of times it appears among the neighbors, then sort the counts in descending order and get the most appeared class value. The below function does exactly that in Scala:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def predictClassification(trainSet: Array[Row], testRow: Row, k: Int): String =
+{
+    val neighbours = getNeighbours(trainSet, testRow, k)
+    val outputValues = for (row &lt;- neighbours) yield row.getString(trainSet(0).length - 1)
+    outputValues.groupBy(identity)
+        .mapValues(_.size)
+        .toSeq
+        .sortWith(_._2 &gt; _._2)
+        .head._1
+}</code></pre><figcaption>Make prediction on the class value of a new data element</figcaption></figure><h3 id="apply-the-above-concepts-to-iris-dataset">Apply the above concepts to Iris Dataset</h3><p>We will now apply the concepts above to perform KNN on the Iris Dataset.</p><p>First, we have to load the dataset into the program. This is done using the <code>readCsv</code> function I've written below:</p><figure class="kg-card kg-code-card"><pre><code class="language-scala">def readCsv(fileName: String, header: Boolean): DataFrame = {
+    spark.read
+        .format("csv")
+        .option("header", header)
+        .option("inferSchema", header)
+        .load(fileName)
+        .repartition($"Class")
+}</code></pre><figcaption>Code to read a CSV into a DataFrame</figcaption></figure><p>We also have to normalize the data we have. This is because KNN is based on distance between records. Unless data is normalized distance will be incorrectly calculated, because different attributes will not contribute to the distance in a uniform way.  Attributes having a larger value range will have an unduly large influence on the distance, because they make greater contribution to the distance. If the dataset requires that some columns be given a greater preference over others, then normalization isn't recommended, but this is not true in the case of the Iris dataset.</p><p>We use the Z Score Normalization technique. With this, we subtract the mean of the respective column from each cell, and divide that with the standard deviation of that column. <a href="https://towardsdatascience.com/understand-data-normalization-in-machine-learning-8ff3062101f0">This</a> article describes Data Normalization in good detail.</p><p>The following function does our job:</p><pre><code class="language-scala">def normalizeData(): Unit = {
+    df.columns.filterNot(e =&gt; e == "Class").foreach{col =&gt;
+        val (mean_col, stddev_col) = df.select(mean(col), stddev(col))
+            .as[(Double, Double)]
+            .first()
+        df = df.withColumn(s"$col.norm", ($"$col" - mean_col) / stddev_col)
+            .drop(col)
+            .withColumnRenamed(s"$col.norm", col)
+    }
+}</code></pre><p>As you can see above, we are filtering out the class value, because we will not be using this value to compute the distance. There's one problem with our approach though, our KNN functions written above assume that the class value will be the last column. In the way we've normalized the data, we are dropping the original column, and adding the normalized column in place. This will push the <code>Class</code> column to the beginning. So, I've written another function which will move the column back to where it should actually be:</p><pre><code class="language-scala">def moveClassToEnd(): Unit = {
+    val cols = df.columns.filterNot(_ == "Class") ++ Array("Class")
+    df = df.select(cols.head, cols.tail: _*)
+}</code></pre><p>We will evaluate our algorithm using K-fold cross-validation with 5 folds. This means that we will have 150/5 = 30 rows per fold. We will use helper functions <code>evaluateAlgorithm()</code> and <code>accuracyMetric()</code> to evaluate the algorithm for cross-validation and calculate the accuracy of our predictions respectively.</p><p>Since Spark does not allow any of its operations inside a Spark transformation, we will have to perform a <code>collect()</code> on the Train set and Test set <code>DataFrame</code>s every time before passing it to any function. A sample run with <code>k = 3</code> produces the following output:</p><figure class="kg-card kg-image-card"><img src="http://localhost:2368/content/images/2020/04/KNN-Accuracy.png" class="kg-image" alt loading="lazy"></figure><p>Let's go one step further and run our program over different values of <code>k</code>. I'm running it for <code>k</code> from <code>1 to 10</code>, and here are some results (this may not be the same everytime): </p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="http://localhost:2368/content/images/2020/04/image.png" class="kg-image" alt loading="lazy"><figcaption>KNN accuracy for a variety of k values</figcaption></figure><p>You can find the entire code below:</p><!--kg-card-begin: html--><script src="https://gist-it.appspot.com/github/Sparker0i/Cool-Spark-ML/blob/master/src/main/scala/me/sparker0i/machinelearning/classification/KNN.scala"></script><!--kg-card-end: html--><h3 id="conclusion">CONCLUSION</h3><p>While Spark ideally shouldn't be used smaller datasets like this, you could apply the same thought process and transform this code to use for some larger datasets, and there you will see the magic of Spark over Pandas.</p><p>Inspired heavily from <a href="https://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/">this</a> great article.</p>
+        </section>
+
+
+    </article>
+</main>
+
+
+
+<aside class="read-more-wrap">
+    <div class="read-more inner">
+
+
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
+        <img class="post-card-image"
+            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
+                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
+            alt="Factors to look at while dealing with Cryptocurrencies"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
+                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
+                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
+                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
+            alt="Is the state of targeted digital advertising broken?"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+                    
+<article class="post-card post featured ">
+
+    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
+        <img class="post-card-image"
+            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
+                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
+                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
+                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/content/images/size/w600/2020/09/untitled-3-.png"
+            alt="How to run Spark 3.0 applications on your GPU"
+            loading="lazy"
+        />
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
+            <header class="post-card-header">
+                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
+            </header>
+            <div class="post-card-excerpt">
+                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
+            </div>
+        </a>
+
+        <footer class="post-card-meta">
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/author/sparker0i/" class="static-avatar author-profile-image"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"/></g></svg>
+</a>
+                </li>
+            </ul>
+            <div class="post-card-byline-content">
+                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
+                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
+            </div>
+        </footer>
+
+    </div>
+
+</article>
+
+    </div>
+</aside>
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous">
+</script>
+<script src="/assets/built/casper.js?v=7047d688c8"></script>
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script>
+  var followSocialMedia = {
+    youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
+    instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
+    github: ["https://github.com/sparker0i", "Sparker0i"],
+    linkedin: ["https://www.linkedin.com/in/sparker0i", "Sparker0i"]
+  };
+</script>
+
+<script>
+  var youTube = {
+    name: "Sparker0i",
+    channelId: "UC720N9wQAevIjCD50x4RliQ",
+  };
+</script>
+
+<script>
+  var disqusShortName = "sparker0is-blog";
+</script>
+
+<script>
+	var searchSettings = {
+        key: "12584d6e462ba2c007d10f133c",
+        url: "https://blog.sparker0i.me",
+        options: {
+          keys: ["title"],
+          limit: 10,
+        },
+        api: {
+          resource: "posts",
+          parameters: {
+            limit: "all",
+            fields: ["title", "slug"],
+            filter: "",
+            include: "",
+            order: "",
+            formats: "",
+          },
+        },
+    };
+</script>
+
+</body>
+</html>
