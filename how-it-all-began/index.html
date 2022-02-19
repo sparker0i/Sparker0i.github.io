@@ -1,21 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" class="auto-color">
-<head>
-
-    <title>How It All Began - The Journey To Android App Development</title>
+<html lang="en">
+  <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>How It All Began - The Journey To Android App Development</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="preload" href="/assets/css/app.css?v=a644c0d4cb" as="style" />
+    <link rel="preload" href="/assets/js/manifest.js?v=a644c0d4cb" as="script" />
+    <link rel="preload" href="/assets/js/vendor/content-api.min.js?v=a644c0d4cb" as="script" />
+    <link rel="preload" href="/assets/js/vendor.js?v=a644c0d4cb" as="script" />
+    <link rel="preload" href="/assets/js/app.js?v=a644c0d4cb" as="script" />
+
+      <link rel="preload" href="/assets/css/post.css?v=a644c0d4cb" as="style" />
+  <link rel="preload" href="/assets/js/post.js?v=a644c0d4cb" as="script" />
+
+
     <style>
-        :root {
-            --button-bg-color: #ffffff;
-            --button-text-color: var(--color-darkgrey);
-        }
+      /* These font-faces are here to make fonts work if the Ghost instance is installed in a subdirectory */
+
+      /* source-sans-pro-regular */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('SourceSansPro-Regular'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff2?v=a644c0d4cb") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff?v=a644c0d4cb") format('woff');
+      }
+
+      /* source-sans-pro-600 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('SourceSansPro-SemiBold'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff2?v=a644c0d4cb") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff?v=a644c0d4cb") format('woff');
+      }
+
+      /* source-sans-pro-700 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local('SourceSansPro-Bold'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff2?v=a644c0d4cb") format('woff2'),
+            url("/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff?v=a644c0d4cb") format('woff');
+      }
+
+      /* iconmoon */
+      @font-face {
+        font-family: 'icomoon';
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+        src: url("/assets/fonts/icomoon/icomoon.eot?101fc3?v=a644c0d4cb");
+        src: url("/assets/fonts/icomoon/icomoon.eot?101fc3#iefix?v=a644c0d4cb") format('embedded-opentype'),
+        url("/assets/fonts/icomoon/icomoon.ttf?101fc3?v=a644c0d4cb") format('truetype'),
+        url("/assets/fonts/icomoon/icomoon.woff?101fc3?v=a644c0d4cb") format('woff'),
+        url("/assets/fonts/icomoon/icomoon.svg?101fc3#icomoon?v=a644c0d4cb") format('svg');
+      }
     </style>
 
-    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css?v=b472cdde09" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/app.css?v=a644c0d4cb" media="screen" />
+
+      <link rel="stylesheet" type="text/css" href="/assets/css/post.css?v=a644c0d4cb" media="screen" />
+
+
+    
 
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="canonical" href="http://localhost:2368/how-it-all-began/" />
@@ -101,8 +159,8 @@
     <meta name="generator" content="Ghost 4.33" />
     <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
     
-    <script defer src="/public/cards.min.js?v=b472cdde09"></script>
-    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=b472cdde09">
+    <script defer src="/public/cards.min.js?v=a644c0d4cb"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=a644c0d4cb">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XJJR5L4E3"></script>
 <script>
@@ -116,93 +174,231 @@
 <meta name="google-site-verification" content="dW-FKUoBj2jzKbsORQiymBPtiZ3ROGD5gseblJwYl80" />
 <script data-ad-client="ca-pub-7053772126133454" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><style>:root {--ghost-accent-color: #00e1ff;}</style>
 
-</head>
-<body class="post-template tag-android tag-assignment tag-java tag-programming tag-simple-weather tag-workshop has-sans-body">
-<div class="viewport">
+    <style>
+      :root {
+        --primary-subtle-color: var(--ghost-accent-color) !important;
+      }
+    </style>
 
-    <header id="gh-head" class="gh-head has-cover">
-        <nav class="gh-head-inner inner gh-container">
+    <script>
+      // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat
+      const ghostHost = "http://localhost:2368"
+      // @license-end
+    </script>
 
-            <div class="gh-head-brand">
-                <a class="gh-head-logo" href="http://localhost:2368">
-                        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" />
-                </a>
-                <a class="gh-burger" role="button">
-                    <div class="gh-burger-box">
-                        <div class="gh-burger-inner"></div>
-                    </div>
-                </a>
-            </div>
-            <div class="gh-head-menu">
-                <ul class="nav">
-    <li class="nav-scala"><a href="http://localhost:2368/tag/scala/">Scala</a></li>
-    <li class="nav-spark"><a href="http://localhost:2368/tag/spark/">Spark</a></li>
-</ul>
+  </head>
+  <body class="post-template tag-android tag-assignment tag-java tag-programming tag-simple-weather tag-workshop">
+    
 
-            </div>
-            <div class="gh-head-actions">
-                <div class="gh-social">
-                        <a class="gh-social-facebook" href="https://www.facebook.com/Sparker0i" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 0c8.837 0 16 7.163 16 16s-7.163 16-16 16S0 24.837 0 16 7.163 0 16 0zm5.204 4.911h-3.546c-2.103 0-4.443.885-4.443 3.934.01 1.062 0 2.08 0 3.225h-2.433v3.872h2.509v11.147h4.61v-11.22h3.042l.275-3.81h-3.397s.007-1.695 0-2.187c0-1.205 1.253-1.136 1.329-1.136h2.054V4.911z" /></svg></a>
-                        <a class="gh-social-twitter" href="https://twitter.com/Sparker0i" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
-</a>
+
+
+  
+<header class="m-header with-picture js-header">
+  <div class="m-mobile-topbar" data-aos="fade-down">
+    <button class="m-icon-button in-mobile-topbar js-open-menu" aria-label="Open menu">
+      <span class="icon-menu" aria-hidden="true"></span>
+    </button>
+      <a href="http://localhost:2368" class="m-logo in-mobile-topbar">
+        <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" class="">
+      </a>
+    <button class="m-icon-button in-mobile-topbar js-open-search" aria-label="Open search">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="m-menu js-menu">
+    <button class="m-icon-button outlined as-close-menu js-close-menu" aria-label="Close menu">
+      <span class="icon-close"></span>
+    </button>
+    <div class="m-menu__main" data-aos="fade-down">
+      <div class="l-wrapper">
+        <div class="m-nav js-main-nav">
+          <nav class="m-nav__left js-main-nav-left" role="navigation" aria-label="Main menu">
+            <ul>
+                <li class="only-desktop">
+                  <a href="http://localhost:2368" class="m-logo">
+                    <img src="http://localhost:2368/content/images/2020/02/6006221719b070975f272141125c0689.png" alt="Sparker0i&#x27;s Blog" class="">
+                  </a>
+                </li>
+                
+    <li class="nav-scala">
+      <a href="http://localhost:2368/tag/scala/">Scala</a>
+    </li>
+    <li class="nav-spark">
+      <a href="http://localhost:2368/tag/spark/">Spark</a>
+    </li>
+
+              <li class="submenu-option js-submenu-option">
+                <button class="m-icon-button in-menu-main more js-toggle-submenu" aria-label="Open submenu">
+                  <span class="icon-more" aria-hidden="true"></span>
+                </button>
+                <div class="m-submenu js-submenu">
+                  <div class="l-wrapper in-submenu">
+                    <section class="m-recent-articles">
+                      <h3 class="m-submenu-title in-recent-articles">Recent articles</h3>
+                          <div class="swiper js-recent-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                  <a href="/factors-to-look-dealing-crypto/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="Factors to look at while dealing with Cryptocurrencies">
+                                      Factors to look at while dealing with Cryptocurrencies
+                                    </h3>
+                                    <span class="m-recent-article__date">6 months ago</span>
+                                  </a>
+                                </div>
+                                <div class="swiper-slide">
+                                  <a href="/health-targeted-digital-advertising-today/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="Is the state of targeted digital advertising broken?">
+                                      Is the state of targeted digital advertising broken?
+                                    </h3>
+                                    <span class="m-recent-article__date">a year ago</span>
+                                  </a>
+                                </div>
+                                <div class="swiper-slide">
+                                  <a href="/run-spark-3-applications-on-gpu/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2020/09/untitled-3-.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="How to run Spark 3.0 applications on your GPU">
+                                      How to run Spark 3.0 applications on your GPU
+                                    </h3>
+                                    <span class="m-recent-article__date">a year ago</span>
+                                  </a>
+                                </div>
+                                <div class="swiper-slide">
+                                  <a href="/spark-ml-data-preprocessing/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/content/images/size/w300/2020/05/mllib.jpg" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="Cool Spark ML - Part 2: Preprocessing of Data">
+                                      Cool Spark ML - Part 2: Preprocessing of Data
+                                    </h3>
+                                    <span class="m-recent-article__date">2 years ago</span>
+                                  </a>
+                                </div>
+                            </div>
+                          </div>
+                    </section>
+                    <section class="m-tags">
+                      <h3 class="m-submenu-title">Tags</h3>
+                        <ul>
+                            <li>
+                              <a href="/tag/2fa/">2FA</a>
+                            </li>
+                            <li>
+                              <a href="/tag/adb/">ADB</a>
+                            </li>
+                            <li>
+                              <a href="/tag/asus/">ASUS</a>
+                            </li>
+                            <li>
+                              <a href="/tag/ads/">Ads</a>
+                            </li>
+                            <li>
+                              <a href="/tag/advertising/">Advertising</a>
+                            </li>
+                            <li>
+                              <a href="/tag/analysis/">Analysis</a>
+                            </li>
+                            <li>
+                              <a href="/tag/android/">Android</a>
+                            </li>
+                            <li>
+                              <a href="/tag/android-one/">Android One</a>
+                            </li>
+                            <li>
+                              <a href="/tag/android-project/">Android Project</a>
+                            </li>
+                            <li>
+                              <a href="/tag/assignment/">Assignment</a>
+                            </li>
+                        </ul>
+                    </section>
+                  </div>
                 </div>
-
-                    <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="m-nav__right">
+            <button class="m-icon-button in-menu-main js-open-search" aria-label="Open search">
+              <span class="icon-search" aria-hidden="true"></span>
+            </button>
+            <div class="m-toggle-darkmode js-tooltip" data-tippy-content="Toggle light/dark mode" tabindex="0">
+              <label for="toggle-darkmode" class="sr-only">
+                Toggle light/dark mode
+              </label>
+              <input id="toggle-darkmode" type="checkbox" class="js-toggle-darkmode">
+              <div>
+                <span class="icon-moon moon" aria-hidden="true"></span>
+                <span class="icon-sunny sun" aria-hidden="true"></span>
+              </div>
             </div>
-        </nav>
-    </header>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="site-content">
-        
+</header>
 
-
-
-<main id="site-main" class="site-main">
-    <article class="article post tag-android tag-assignment tag-java tag-programming tag-simple-weather tag-workshop ">
-
-        <header class="article-header gh-canvas">
-
-            <section class="article-tag">
-                <a href="http://localhost:2368/tag/android/">Android</a>
-            </section>
-
-            <h1 class="article-title">How It All Began - The Journey To Android App Development</h1>
-
-
-            <div class="article-byline">
-                <section class="article-byline-content">
-                    <ul class="author-list">
-                        <li class="author-list-item">
-                            <a href="/author/sparker0i/" class="author-avatar">
-                                <img class="author-profile-image" src="/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg" alt="Aaditya Menon" />
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="article-byline-meta">
-                        <h4 class="author-name"><a href="/author/sparker0i/">Aaditya Menon</a></h4>
-                        <div class="byline-meta-content">
-                            <time class="byline-meta-date" datetime="2016-11-13">Nov 13, 2016</time>
-                            <span class="byline-reading-time"><span class="bull">&bull;</span> 4 min read</span>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            <figure class="article-image">
-                <img
-                    srcset="/content/images/size/w300/wordpress/2017/11/pp.jpg 300w,
-                            /content/images/size/w600/wordpress/2017/11/pp.jpg 600w,
-                            /content/images/size/w1000/wordpress/2017/11/pp.jpg 1000w,
-                            /content/images/size/w2000/wordpress/2017/11/pp.jpg 2000w"
-                    sizes="(min-width: 1400px) 1400px, 92vw"
-                    src="/content/images/size/w2000/wordpress/2017/11/pp.jpg"
-                    alt="How It All Began - The Journey To Android App Development"
-                />
-            </figure>
-        </header>
-
-        <section class="gh-content gh-canvas">
-            <!--kg-card-begin: html--><p>Of late I have nothing special to write about, other than the fact that I am working on updates of my app. Other than that, I recently created a Jekyll + Material Design + Github Pages Blog (The one you&#8217;re seeing right now). Why I chose this? This is because of the less latency of GitHub pages, which is what I love the most. I had noticed considerable slow loading time on my Blogger blog, so I moved here. Anyway, I&#8217;m going out of topic, so let&#8217;s come back to it.</p>
+<main class="main-wrap">
+    
+  <section class="m-hero with-picture" data-aos="fade">
+    <div class="m-hero__picture in-post">
+      <img
+        srcset="
+          /content/images/size/w300/wordpress/2017/11/pp.jpg 300w,
+          /content/images/size/w600/wordpress/2017/11/pp.jpg 600w,
+          /content/images/size/w1000/wordpress/2017/11/pp.jpg 1000w,
+          /content/images/size/w2000/wordpress/2017/11/pp.jpg 2000w
+        "
+        sizes="(max-width: 600px) 600px, (max-width: 1000px) 1000px, 2000px"
+        src="/content/images/size/w1000/wordpress/2017/11/pp.jpg"
+        alt=""
+      />
+    </div>
+    </section>
+  
+  <article>
+    <div class="l-content in-post">
+        <div class="l-wrapper in-post  js-aos-wrapper" data-aos="fade-up"
+          data-aos-delay="300">
+          <div
+            class="l-post-content js-progress-content">
+            <header class="m-heading">
+              <h1 class="m-heading__title in-post">How It All Began - The Journey To Android App Development</h1>
+              <div class="m-heading__meta">
+                  <a href="http://localhost:2368/tag/android/" class="m-heading__meta__tag">Android</a>
+                  <span class="m-heading__meta__divider" aria-hidden="true">&bull;</span>
+                <span class="m-heading__meta__time">Nov 13, 2016</span>
+              </div>
+            </header>
+            <div class="pos-relative js-post-content">
+              <div class="m-share">
+                <div class="m-share__content js-sticky">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:2368/how-it-all-began/"
+                    class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Facebook">
+                    <span class="icon-facebook" aria-hidden="true"></span>
+                  </a>
+                  <a href="https://twitter.com/intent/tweet?text=How%20It%20All%20Began%20-%20The%20Journey%20To%20Android%20App%20Development&url=http://localhost:2368/how-it-all-began/"
+                    class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Twitter">
+                    <span class="icon-twitter" aria-hidden="true"></span>
+                  </a>
+                  <button class="m-icon-button filled in-share progress js-scrolltop" aria-label="Scroll to top">
+                    <span class="icon-arrow-top" aria-hidden="true"></span>
+                    <svg aria-hidden="true">
+                      <circle class="progress-ring__circle js-progress" fill="transparent" r="0" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <!--kg-card-begin: html--><p>Of late I have nothing special to write about, other than the fact that I am working on updates of my app. Other than that, I recently created a Jekyll + Material Design + Github Pages Blog (The one you&#8217;re seeing right now). Why I chose this? This is because of the less latency of GitHub pages, which is what I love the most. I had noticed considerable slow loading time on my Blogger blog, so I moved here. Anyway, I&#8217;m going out of topic, so let&#8217;s come back to it.</p>
 <p>So in today&#8217;s blog post I&#8217;ll highlight how it all began &#8211; my passion for developing Android apps.</p>
 <p>It all started in April 2016, when we were informed of the Summer internships going on in our college. I wasn&#8217;t actually interested in any of this, but on my mom&#8217;s insistence (well actually a forced one though), I decided to take up one of them. We had three options to choose from &#8211; Robotics, Open Source Contributions and Android App Development. I decided to take up Android App Development, because I believed that the Robotics Workshop will be back next year, and since I&#8217;m a part of the FOSS Club, I could skip out on the Contributions workshop too.</p>
 <p>So, the workshop journey started in June 2016, wherein for the first three days we were taught Java, and then we started off with the actual stuff &#8211; programming in Android Studio. Compared to others, I was the one finishing the tasks in the CS With Android Course earlier. So this actually helped me build confidence. I had prior knowledge of developing Windows 10 Apps, not at a large scale, though enough for basic development, along with DirectX. So maybe, this thing helped me easily grasp everything.</p>
@@ -282,188 +478,211 @@
 <p>Until another blog post, Ciao 😀<br />
 Aaditya</p>
 <!--kg-card-end: html-->
+                <section class="m-tags in-post">
+                  <h3 class="m-submenu-title">Tags</h3>
+                  <ul>
+                      <li>
+                        <a href="/tag/android/" title="Android">Android</a>
+                      </li>
+                      <li>
+                        <a href="/tag/assignment/" title="Assignment">Assignment</a>
+                      </li>
+                      <li>
+                        <a href="/tag/java/" title="Java">Java</a>
+                      </li>
+                      <li>
+                        <a href="/tag/programming/" title="Programming">Programming</a>
+                      </li>
+                      <li>
+                        <a href="/tag/simple-weather/" title="Simple Weather">Simple Weather</a>
+                      </li>
+                      <li>
+                        <a href="/tag/workshop/" title="Workshop">Workshop</a>
+                      </li>
+                  </ul>
+                </section>
+            </div>
+          </div>
+        </div>
+        <section class="m-author">
+          <div class="m-author__content">
+            <div class="m-author__picture">
+              <a href="http://localhost:2368/author/sparker0i/" class="m-author-picture" aria-label="Aaditya Menon">
+                  <div style="background-image: url(http://localhost:2368/content/images/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg);"></div>
+              </a>
+            </div>
+            <div class="m-author__info">
+              <h4 class="m-author__name">
+                <a href="http://localhost:2368/author/sparker0i/">Aaditya Menon</a>
+              </h4>
+              <ul class="m-author-links">
+                  <li>
+                    <a href="https://twitter.com/@Sparker0i" target="_blank" rel="noopener" aria-label="Twitter">
+                      <span class="icon-twitter" aria-hidden="true"></span>
+                    </a>
+                  </li>
+              </ul>
+            </div>
+          </div>
         </section>
-
-
-    </article>
+            <section class="m-recommended">
+              <div class="l-wrapper in-recommended">
+                <h3 class="m-section-title in-recommended">Recommended for you</h3>
+                <div class="m-recommended-articles">
+                  <div class="m-recommended-slider swiper js-recommended-slider">
+                    <div class="swiper-wrapper">
+                      
+    <div class="m-recommended-slider__item swiper-slide">
+  <article class="m-article-card  post tag-2fa tag-git tag-github tag-linux tag-programming tag-solving-technical tag-two-factor-authentication">
+    <div class="m-article-card__picture">
+      <a href="/configure-2-factor-authentication-for-github/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/wordpress/2018/03/shutterstock_641960737.jpg" loading="lazy" alt="">
+      <a href="http://localhost:2368/author/sparker0i/" class="m-article-card__author js-tooltip" aria-label="Aaditya Menon" data-tippy-content="Posted by Aaditya Menon ">
+          <div style="background-image: url(/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="http://localhost:2368/tag/2fa/" class="m-article-card__tag">2FA</a>
+      <a href="/configure-2-factor-authentication-for-github/" class="m-article-card__info-link" aria-label="Configure 2-Factor Authentication for Github">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Configure 2-Factor Authentication for Github">
+            Configure 2-Factor Authentication for Github
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 years ago</span>
+          <span>&bull;</span>
+          <span>3 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item swiper-slide">
+  <article class="m-article-card  post tag-android tag-assignment tag-java tag-programming tag-simple-weather tag-workshop">
+    <div class="m-article-card__picture">
+      <a href="/simple-weather-now-in-the-google-play-store/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/wordpress/2017/11/app-icon.png" loading="lazy" alt="">
+      <a href="http://localhost:2368/author/sparker0i/" class="m-article-card__author js-tooltip" aria-label="Aaditya Menon" data-tippy-content="Posted by Aaditya Menon ">
+          <div style="background-image: url(/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="http://localhost:2368/tag/android/" class="m-article-card__tag">Android</a>
+      <a href="/simple-weather-now-in-the-google-play-store/" class="m-article-card__info-link" aria-label="Simple Weather - now in the Google Play Store">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Simple Weather - now in the Google Play Store">
+            Simple Weather - now in the Google Play Store
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>5 years ago</span>
+          <span>&bull;</span>
+          <span>3 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item swiper-slide">
+  <article class="m-article-card  post tag-android tag-java tag-programming tag-simple-weather tag-workshop">
+    <div class="m-article-card__picture">
+      <a href="/announcing-simple-weather-v4/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/content/images/size/w600/wordpress/2017/11/weather2-1.png" loading="lazy" alt="">
+      <a href="http://localhost:2368/author/sparker0i/" class="m-article-card__author js-tooltip" aria-label="Aaditya Menon" data-tippy-content="Posted by Aaditya Menon ">
+          <div style="background-image: url(/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="http://localhost:2368/tag/android/" class="m-article-card__tag">Android</a>
+      <a href="/announcing-simple-weather-v4/" class="m-article-card__info-link" aria-label="Announcing Simple Weather v4">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Announcing Simple Weather v4">
+            Announcing Simple Weather v4
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>5 years ago</span>
+          <span>&bull;</span>
+          <span>4 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+                    </div>
+                    <button class="m-icon-button filled in-recommended-articles swiper-button-prev" aria-label="Previous">
+                      <span class="icon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <button class="m-icon-button filled in-recommended-articles swiper-button-next" aria-label="Next">
+                      <span class="icon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+    </div>
+  </article>
 </main>
 
 
 
-<aside class="read-more-wrap">
-    <div class="read-more inner">
-
-
-                    
-<article class="post-card post featured ">
-
-    <a class="post-card-image-link" href="/factors-to-look-dealing-crypto/">
-        <img class="post-card-image"
-            srcset="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 300w,
-                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 600w,
-                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 1000w,
-                    https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
-            sizes="(max-width: 1000px) 400px, 800px"
-            src="https://images.unsplash.com/photo-1621504450181-5d356f61d307?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;MnwxMTc3M3wwfDF8c2VhcmNofDN8fGNyeXB0b3xlbnwwfHx8fDE2MjgxMDYyOTU&amp;ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;w&#x3D;2000"
-            alt="Factors to look at while dealing with Cryptocurrencies"
-            loading="lazy"
-        />
-    </a>
-
-    <div class="post-card-content">
-
-        <a class="post-card-content-link" href="/factors-to-look-dealing-crypto/">
-            <header class="post-card-header">
-                <h2 class="post-card-title">Factors to look at while dealing with Cryptocurrencies</h2>
-            </header>
-            <div class="post-card-excerpt">
-                <p>Ever wondered how to research crypto tokens before you buy them, but have no idea where to start? You've ended your search at the right place.</p>
-            </div>
-        </a>
-
-        <footer class="post-card-meta">
-            <ul class="author-list">
-                <li class="author-list-item">
-                    <a href="/author/sparker0i/" class="static-avatar">
-                        <img class="author-profile-image" src="/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg" alt="Aaditya Menon" loading="lazy" />
-                    </a>
-                </li>
-            </ul>
-            <div class="post-card-byline-content">
-                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
-                <span class="post-card-byline-date"><time datetime="2021-08-06">Aug 6, 2021</time> <span class="bull">&bull;</span> 9 min read</span>
-            </div>
-        </footer>
-
-    </div>
-
-</article>
-                    
-<article class="post-card post featured ">
-
-    <a class="post-card-image-link" href="/health-targeted-digital-advertising-today/">
-        <img class="post-card-image"
-            srcset="/content/images/size/w300/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 300w,
-                    /content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 600w,
-                    /content/images/size/w1000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 1000w,
-                    /content/images/size/w2000/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg 2000w"
-            sizes="(max-width: 1000px) 400px, 800px"
-            src="/content/images/size/w600/2021/01/targeted-nontargeted-houston-marketing-display-advertising1.jpg"
-            alt="Is the state of targeted digital advertising broken?"
-            loading="lazy"
-        />
-    </a>
-
-    <div class="post-card-content">
-
-        <a class="post-card-content-link" href="/health-targeted-digital-advertising-today/">
-            <header class="post-card-header">
-                <h2 class="post-card-title">Is the state of targeted digital advertising broken?</h2>
-            </header>
-            <div class="post-card-excerpt">
-                <p>Advertisements are everywhere - newspapers, TV channels, billboards, and digital. But is the current state of digital advertising good for the end user? Read my opinion to find out more.</p>
-            </div>
-        </a>
-
-        <footer class="post-card-meta">
-            <ul class="author-list">
-                <li class="author-list-item">
-                    <a href="/author/sparker0i/" class="static-avatar">
-                        <img class="author-profile-image" src="/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg" alt="Aaditya Menon" loading="lazy" />
-                    </a>
-                </li>
-            </ul>
-            <div class="post-card-byline-content">
-                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
-                <span class="post-card-byline-date"><time datetime="2021-01-23">Jan 23, 2021</time> <span class="bull">&bull;</span> 11 min read</span>
-            </div>
-        </footer>
-
-    </div>
-
-</article>
-                    
-<article class="post-card post featured ">
-
-    <a class="post-card-image-link" href="/run-spark-3-applications-on-gpu/">
-        <img class="post-card-image"
-            srcset="/content/images/size/w300/2020/09/untitled-3-.png 300w,
-                    /content/images/size/w600/2020/09/untitled-3-.png 600w,
-                    /content/images/size/w1000/2020/09/untitled-3-.png 1000w,
-                    /content/images/size/w2000/2020/09/untitled-3-.png 2000w"
-            sizes="(max-width: 1000px) 400px, 800px"
-            src="/content/images/size/w600/2020/09/untitled-3-.png"
-            alt="How to run Spark 3.0 applications on your GPU"
-            loading="lazy"
-        />
-    </a>
-
-    <div class="post-card-content">
-
-        <a class="post-card-content-link" href="/run-spark-3-applications-on-gpu/">
-            <header class="post-card-header">
-                <h2 class="post-card-title">How to run Spark 3.0 applications on your GPU</h2>
-            </header>
-            <div class="post-card-excerpt">
-                <p>Wanted to run your Spark job on a GPU but didn't know how? Well, your search ends here :)</p>
-            </div>
-        </a>
-
-        <footer class="post-card-meta">
-            <ul class="author-list">
-                <li class="author-list-item">
-                    <a href="/author/sparker0i/" class="static-avatar">
-                        <img class="author-profile-image" src="/content/images/size/w100/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg" alt="Aaditya Menon" loading="lazy" />
-                    </a>
-                </li>
-            </ul>
-            <div class="post-card-byline-content">
-                <span><a href="/author/sparker0i/">Aaditya Menon</a></span>
-                <span class="post-card-byline-date"><time datetime="2020-09-19">Sep 19, 2020</time> <span class="bull">&bull;</span> 4 min read</span>
-            </div>
-        </footer>
-
-    </div>
-
-</article>
-
-    </div>
-</aside>
-
-
-    </div>
-
-    <footer class="site-footer outer">
-        <div class="inner">
-            <section class="copyright"><a href="http://localhost:2368">Sparker0i&#x27;s Blog</a> &copy; 2022</section>
-            <nav class="site-footer-nav">
-                
-            </nav>
-            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
-        </div>
-    </footer>
-
+    
+<div class="m-search js-search" role="dialog" aria-modal="true" aria-label="Search">
+  <button class="m-icon-button outlined as-close-search js-close-search" aria-label="Close search">
+    <span class="icon-close" aria-hidden="true"></span>
+  </button>
+  <div class="m-search__content">
+    <form class="m-search__form">
+      <div class="pos-relative">
+        <span class="icon-search m-search-icon" aria-hidden="true"></span>
+        <label for="search-input" class="sr-only">
+          Type to search
+        </label>
+        <input id="search-input" type="text" class="m-input in-search js-input-search" placeholder="Type to search">
+      </div>
+    </form>
+    <div class="js-search-results hide"></div>
+    <p class="m-not-found align-center hide js-no-results">
+      No results for your search, please try with something else.
+    </p>
+  </div>
 </div>
 
+    
+<footer class="m-footer">
+  <div class="m-footer__content">
+    <nav class="m-footer-social">
+        <a href="https://www.facebook.com/Sparker0i" target="_blank" rel="noopener" aria-label="Facebook">
+          <span class="icon-facebook" aria-hidden="true"></span>
+        </a>
+        <a href="https://twitter.com/Sparker0i" target="_blank" rel="noopener" aria-label="Twitter">
+          <span class="icon-twitter" aria-hidden="true"></span>
+        </a>
+      <a href="http://localhost:2368/rss" aria-label="RSS">
+        <span class="icon-rss" aria-hidden="true"></span>
+      </a>
+    </nav>
+    <p class="m-footer-copyright">
+      <span>Sparker0i&#x27;s Blog &copy; 2022</span>
+      <span>&nbsp; &bull; &nbsp;</span>
+      <span>Published with <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a></span>
+    </p>
+    <p class="m-footer-copyright jslicense">
+      <a href="/assets/html/javascript.html?v=a644c0d4cb" rel="jslicense">JavaScript license information</a>
+    </p>
+  </div>
+</footer>
 
-<script
-    src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-    crossorigin="anonymous">
-</script>
-<script src="/assets/built/casper.js?v=b472cdde09"></script>
-<script>
-$(document).ready(function () {
-    // Mobile Menu Trigger
-    $('.gh-burger').click(function () {
-        $('body').toggleClass('gh-head-open');
-    });
-    // FitVids - Makes video embeds responsive
-    $(".gh-content").fitVids();
-});
-</script>
+    <script defer src="/assets/js/manifest.js?v=a644c0d4cb"></script>
+    <script defer src="/assets/js/vendor/content-api.min.js?v=a644c0d4cb"></script>
+    <script defer src="/assets/js/vendor.js?v=a644c0d4cb"></script>
+    <script defer src="/assets/js/app.js?v=a644c0d4cb"></script>
 
-<script>
+      <script defer src="/assets/js/post.js?v=a644c0d4cb"></script>
+
+
+    <script>
   var followSocialMedia = {
     youtube: ["https://www.youtube.com/c/sparker0i", "Sparker0i"],
     instagram: ["https://instagram.com/sparker0i", "Sparker0i"],
@@ -504,6 +723,5 @@ $(document).ready(function () {
         },
     };
 </script>
-
-</body>
+  </body>
 </html>
