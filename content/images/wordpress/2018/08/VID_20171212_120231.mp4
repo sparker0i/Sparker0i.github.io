@@ -5,6 +5,6 @@
 <title>Error</title>
 </head>
 <body>
-<pre>NotFoundError: Image not found<br>Stack Trace:<br> &nbsp; &nbsp;at /home/sparker0i/ghost/versions/4.33.1/core/server/adapters/storage/LocalStorageBase.js:135:37<br> &nbsp; &nbsp;at SendStream.error (/home/sparker0i/ghost/versions/4.33.1/node_modules/serve-static/index.js:117:9)<br> &nbsp; &nbsp;at SendStream.emit (node:events:390:28)<br> &nbsp; &nbsp;at SendStream.error (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:270:17)<br> &nbsp; &nbsp;at SendStream.onStatError (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:421:12)<br> &nbsp; &nbsp;at onstat (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:726:26)<br> &nbsp; &nbsp;at FSReqCallback.oncomplete (node:fs:198:21)</pre>
+<pre>NotFoundError: Image not found<br>Stack Trace:<br> &nbsp; &nbsp;at /home/sparker0i/ghost/versions/4.33.1/core/server/adapters/storage/LocalStorageBase.js:135:37<br> &nbsp; &nbsp;at SendStream.error (/home/sparker0i/ghost/versions/4.33.1/node_modules/serve-static/index.js:117:9)<br> &nbsp; &nbsp;at SendStream.emit (node:events:526:28)<br> &nbsp; &nbsp;at SendStream.error (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:270:17)<br> &nbsp; &nbsp;at SendStream.onStatError (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:421:12)<br> &nbsp; &nbsp;at onstat (/home/sparker0i/ghost/versions/4.33.1/node_modules/send/index.js:726:26)<br> &nbsp; &nbsp;at FSReqCallback.oncomplete (node:fs:198:21)</pre>
 </body>
 </html>
