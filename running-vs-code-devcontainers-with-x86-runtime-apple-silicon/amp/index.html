@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html ⚡>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <title>Emulate x86 apps on an Apple Silicon Mac using Devcontainers</title>
+
+    <meta name="description" content="Certain apps and libraries never want to update with time, thus you end up with emulation. Here&#x27;s how you would develop apps using incompatible libraries on your Apple Silicon Mac.">
+    <link rel="icon" href="https://blog.sparker0i.me/content/images/size/w256h256/2020/02/Untitled.png" type="image/png">
+    <link rel="canonical" href="https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Emulate x86 apps on an Apple Silicon Mac using Devcontainers">
+    <meta property="og:description" content="Certain apps and libraries never want to update with time, thus you end up with emulation. Here&#x27;s how you would develop apps using incompatible libraries on your Apple Silicon Mac.">
+    <meta property="og:url" content="https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/">
+    <meta property="og:image" content="https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg">
+    <meta property="article:published_time" content="2024-04-09T15:51:58.000Z">
+    <meta property="article:modified_time" content="2024-04-09T15:51:58.000Z">
+    <meta property="article:tag" content="Virtualization">
+    <meta property="article:tag" content="Colima">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Devcontainer">
+    <meta property="article:tag" content="Rosetta">
+    <meta property="article:tag" content="VS Code">
+    <meta property="article:tag" content="VSCode">
+    <meta property="article:tag" content="Visual Studio Code">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Emulate x86 apps on an Apple Silicon Mac using Devcontainers">
+    <meta name="twitter:description" content="Certain apps and libraries never want to update with time, thus you end up with emulation. Here&#x27;s how you would develop apps using incompatible libraries on your Apple Silicon Mac.">
+    <meta name="twitter:url" content="https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/">
+    <meta name="twitter:image" content="https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Aaditya Menon">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Virtualization, Colima, Docker, Devcontainer, Rosetta, VS Code, VSCode, Visual Studio Code">
+    <meta name="twitter:site" content="@Sparker0i">
+    <meta name="twitter:creator" content="@Sparker0i">
+    <meta property="og:image:width" content="870">
+    <meta property="og:image:height" content="485">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Sparker0i&#x27;s Blog",
+        "url": "https://blog.sparker0i.me/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.sparker0i.me/content/images/2020/02/6006221719b070975f272141125c0689.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Aaditya Menon",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://blog.sparker0i.me/content/images/2022/02/72678158_2843214719045409_4986419922138562560_n.jpg",
+            "width": 2000,
+            "height": 2000
+        },
+        "url": "https://blog.sparker0i.me/author/sparker0i/",
+        "sameAs": [
+            "https://twitter.com/Sparker0i"
+        ]
+    },
+    "headline": "Emulate x86 apps on an Apple Silicon Mac using Devcontainers",
+    "url": "https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/",
+    "datePublished": "2024-04-09T15:51:58.000Z",
+    "dateModified": "2024-04-09T15:51:58.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg",
+        "width": 870,
+        "height": 485
+    },
+    "keywords": "Virtualization, Colima, Docker, Devcontainer, Rosetta, VS Code, VSCode, Visual Studio Code",
+    "description": "Certain apps and libraries never want to update with time, thus you end up with emulation. Here&#x27;s how you would develop apps using incompatible libraries on your Apple Silicon Mac.",
+    "mainEntityOfPage": "https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/"
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.54">
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="https://blog.sparker0i.me/rss/">
+
+    <style amp-custom>
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        font-size: 62.5%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        color: #3a4145;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+        font-size: 1.7rem;
+        line-height: 1.55em;
+        font-weight: 400;
+        font-style: normal;
+        background: #fff;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    p,
+    ul,
+    ol,
+    li,
+    dl,
+    dd,
+    hr,
+    pre,
+    form,
+    table,
+    video,
+    figure,
+    figcaption,
+    blockquote {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul[class],
+    ol[class] {
+        padding: 0;
+        list-style: none;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+    }
+
+    input,
+    button,
+    select,
+    textarea {
+        font: inherit;
+        -webkit-appearance: none;
+    }
+
+    fieldset {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    label {
+        display: block;
+        font-size: 0.9em;
+        font-weight: 700;
+    }
+
+    hr {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid currentcolor;
+        opacity: 0.1;
+    }
+
+    ::selection {
+        text-shadow: none;
+        background: #cbeafb;
+    }
+
+    mark {
+        background-color: #fdffb6;
+    }
+
+    small {
+        font-size: 80%;
+    }
+
+    sub,
+    sup {
+        position: relative;
+        font-size: 75%;
+        line-height: 0;
+        vertical-align: baseline;
+    }
+    sup {
+        top: -0.5em;
+    }
+    sub {
+        bottom: -0.25em;
+    }
+
+    ul li + li {
+        margin-top: 0.6em;
+    }
+
+    a {
+        color: var(--ghost-accent-color, #1292EE);
+        text-decoration-skip-ink: auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+        font-weight: 700;
+        color: #121212;
+        line-height: 1.4em;
+    }
+
+    h1 {
+        font-size: 3.4rem;
+        line-height: 1.1em;
+    }
+
+    h2 {
+        font-size: 2.4rem;
+        line-height: 1.2em;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+    }
+
+    h4 {
+        font-size: 1.7rem;
+    }
+
+    h5 {
+        font-size: 1.6rem;
+    }
+
+    h6 {
+        font-size: 1.6rem;
+    }
+
+    amp-img {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    amp-img img {
+        object-fit: cover;
+    }
+    
+    amp-youtube {
+        height: calc(100vw / 1.78);
+        width: 100vw;
+        position: relative;
+    }
+
+    amp-youtube img {
+        position: absolute;
+    }
+
+    .page-header {
+        padding: 50px 5vmin 30px;
+        text-align: center;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .page-header a {
+        color: #121212;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 1.6rem;
+        letter-spacing: -0.1px;
+    }
+
+    .post {
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .post-header {
+        margin: 0 5vmin 5vmin;
+        text-align: center;
+    }
+
+    .post-meta {
+        margin: 1rem 0 0 0;
+        text-transform: uppercase;
+        color: #738a94;
+        font-weight: 500;
+        font-size: 1.3rem;
+    }
+
+    .post-image {
+        margin: 0 0 5vmin;
+    }
+
+    .post-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .post-content {
+        padding: 0 5vmin;
+    }
+
+    .post-content > * + * {
+        margin-top: 1.5em;
+    }
+
+    .post-content [id]:not(:first-child) {
+        margin: 2em 0 0;
+    }
+
+    .post-content > [id] + * {
+        margin-top: 1rem;
+    }
+
+    .post-content [id] + .kg-card,
+    .post-content blockquote + .kg-card {
+        margin-top: 40px;
+    }
+
+    .post-content > ul,
+    .post-content > ol,
+    .post-content > dl {
+        padding-left: 1.9em;
+    }
+
+    .post-content hr {
+        margin-top: 40px;
+    }
+
+    .post .post-content hr + * {
+        margin-top: 40px;
+    }
+
+    .post-content amp-img {
+        background-color: #f8f8f8;
+    }
+
+    .post-content blockquote {
+        position: relative;
+        font-style: italic;
+    }
+
+    .post-content blockquote::before {
+        content: "";
+        position: absolute;
+        left: -1.5em;
+        top: 0;
+        bottom: 0;
+        width: 0.3rem;
+        background: var(--ghost-accent-color, #1292EE);
+    }
+
+    .post-content blockquote.kg-blockquote-alt {
+        font-size: 1.2em;
+        font-style: italic;
+        line-height: 1.6em;
+        text-align: center;
+        color: #738a94;
+        padding: 0.75em 3em 1.25em;
+    }
+
+    .post-content blockquote.kg-blockquote-alt::before {
+        display: none;
+    }
+
+    .post-content :not(.kg-card):not([id]) + .kg-card {
+        margin-top: 40px;
+    }
+
+    .post-content .kg-card + :not(.kg-card) {
+        margin-top: 40px;
+    }
+
+    .kg-card figcaption {
+        padding: 1.5rem 1.5rem 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.3rem;
+        line-height: 1.4em;
+        opacity: 0.6;
+    }
+
+    .kg-card figcaption strong {
+        color: rgba(0,0,0,0.8);
+    }
+
+    .post-content :not(pre) code {
+        vertical-align: middle;
+        padding: 0.15em 0.4em 0.15em;
+        border: #e1eaef 1px solid;
+        font-weight: 400;
+        font-size: 0.9em;
+        line-height: 1em;
+        color: #15171a;
+        background: #f0f6f9;
+        border-radius: 0.25em;
+    }
+
+    .post-content > pre {
+        overflow: scroll;
+        padding: 16px 20px;
+        color: #fff;
+        background: #1F2428;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px -2px rgba(0,0,0,.1), 0 0 1px rgba(0,0,0,.4);
+    }
+
+    .kg-embed-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .kg-image-card img {
+        margin: auto;
+    }
+
+    .kg-gallery-card + .kg-gallery-card {
+        margin-top: 0.75em;
+    }
+
+    .kg-gallery-container {
+        position: relative;
+    }
+
+    .kg-gallery-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .kg-gallery-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .kg-gallery-row:not(:first-of-type) {
+        margin: 0.75em 0 0 0;
+    }
+
+    .kg-gallery-image:not(:first-of-type) {
+        margin: 0 0 0 0.75em;
+    }
+
+    .kg-bookmark-card,
+    .kg-bookmark-publisher {
+        position: relative;
+    }
+
+    .kg-bookmark-container,
+    .kg-bookmark-container:hover {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row-reverse;
+        color: currentColor;
+        background: rgba(255,255,255,0.6);
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+        text-decoration: none;
+        border-radius: 3px;
+        box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+    }
+
+    .kg-bookmark-content {
+        flex-basis: 0;
+        flex-grow: 999;
+        padding: 20px;
+        order: 1;
+    }
+
+    .kg-bookmark-title {
+        font-weight: 600;
+        font-size: 1.5rem;
+        line-height: 1.3em;
+    }
+
+    .kg-bookmark-description {
+        display: -webkit-box;
+        max-height: 45px;
+        margin: 0.5em 0 0 0;
+        font-size: 1.4rem;
+        line-height: 1.55em;
+        overflow: hidden;
+        opacity: 0.8;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .kg-bookmark-metadata {
+        margin-top: 20px;
+    }
+
+    .kg-bookmark-metadata {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1.3rem;
+        line-height: 1.3em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .kg-bookmark-description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .kg-bookmark-metadata amp-img {
+        width: 18px;
+        height: 18px;
+        max-width: 18px;
+        max-height: 18px;
+        margin-right: 10px;
+    }
+
+    .kg-bookmark-thumbnail {
+        display: flex;
+        flex-basis: 20rem;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+
+    .kg-bookmark-thumbnail amp-img {
+        max-height: 200px;
+    }
+
+    .kg-bookmark-author {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .kg-bookmark-publisher::before {
+        content: "•";
+        margin: 0 .5em;
+    }
+
+    .kg-toggle-card-icon {
+        display: none;
+    }
+
+    .kg-toggle-content {
+        margin-top: 0.8rem;
+    }
+
+    .kg-product-card-container {
+        background: transparent;
+        padding: 20px;
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: inset 0 0 0 1px rgb(124 139 154 / 25%);
+    }
+
+    .kg-product-card-description p {
+        margin-top: 1.5em;
+    }
+
+    .kg-product-card-description ul {
+        margin-left: 24px;
+    }
+
+    .kg-product-card-title {
+        font-size: 1.9rem;
+        font-weight: 700;
+    }
+
+    .kg-product-card-rating-star {
+        height: 28px;
+        width: 20px;
+        margin-right: 2px;
+    }
+
+    .kg-product-card-rating-star svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    opacity: 0.15;
+    }
+
+    .kg-product-card-rating-active.kg-product-card-rating-star svg {
+    opacity: 1;
+    }
+
+    .kg-nft-card-container {
+        position: relative;
+        display: flex;
+        flex: auto;
+        flex-direction: column;
+        text-decoration: none;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;
+        font-size: 1.4rem;
+        font-weight: 400;
+        box-shadow: 0 2px 6px -2px rgb(0 0 0 / 10%), 0 0 1px rgb(0 0 0 / 40%);
+        width: 100%;
+        max-width: 512px;
+        color: #15212A;
+        background: #fff;
+        border-radius: 5px;
+        transition: none;
+        margin: 0 auto;
+    }
+
+    .kg-nft-metadata {
+        padding: 2.0rem;
+    }
+
+    .kg-nft-image-container {
+        position: relative;
+    }
+
+    .kg-nft-image {
+        display: flex;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .kg-nft-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .kg-nft-header h4.kg-nft-title {
+        font-size: 1.9rem;
+        font-weight: 700;
+        margin: 0;
+        color: #15212A;
+    }
+
+    .kg-nft-header amp-img {
+        max-width: 114px;
+        max-height: 26px;
+    }
+
+    .kg-nft-opensea-logo {
+        margin-top: 2px;
+        width: 100px;
+    }
+
+    .kg-nft-creator {
+        font-family: inherit;
+        color: #95A1AD;
+    }
+
+    .kg-nft-creator span {
+        font-weight: 500;
+        color: #15212A;
+    }
+
+    .kg-nft-card p.kg-nft-description {
+        font-size: 1.4rem;
+        line-height: 1.4em;
+        margin: 2.0rem 0 0;
+        color: #222;
+    }
+
+    .kg-button-card {
+        display: flex;
+        position: static;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .kg-btn {
+        display: flex;
+        position: static;
+        align-items: center;
+        padding: 0 2.0rem;
+        height: 4.0rem;
+        line-height: 4.0rem;
+        font-size: 1.65rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .kg-btn:hover {
+        opacity: 0.85;
+    }
+
+    .kg-btn-accent {
+        background-color: var(--ghost-accent-color, #1292EE);
+        color: #fff;
+    }
+
+    .kg-callout-card {
+        display: flex;
+        padding: 20px 28px;
+        border-radius: 3px;
+    }
+
+    .kg-callout-card-grey {
+        background: rgba(124, 139, 154, 0.13);
+    }
+
+    .kg-callout-card-white {
+        background: transparent;
+        box-shadow: inset 0 0 0 1px rgba(124, 139, 154, 0.25);
+    }
+
+    .kg-callout-card-blue {
+        background: rgba(33, 172, 232, 0.12);
+    }
+
+    .kg-callout-card-green {
+        background: rgba(52, 183, 67, 0.12);
+    }
+
+    .kg-callout-card-yellow {
+        background: rgba(240, 165, 15, 0.13);
+    }
+
+    .kg-callout-card-red {
+        background: rgba(209, 46, 46, 0.11);
+    }
+
+    .kg-callout-card-pink {
+        background: rgba(225, 71, 174, 0.11);
+    }
+
+    .kg-callout-card-purple {
+        background: rgba(135, 85, 236, 0.12);
+    }
+
+    .kg-callout-card-accent {
+        background: var(--ghost-accent-color);
+        color: #fff;
+    }
+
+    .kg-callout-card-accent a {
+        color: #fff;
+    }
+
+    .kg-callout-emoji {
+        padding-right: 16px;
+        line-height: 1.3;
+        font-size: 1.25em;
+    }
+
+    .kg-header-card {
+        padding: 6em 3em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .kg-header-card.kg-size-small {
+        padding-top: 4em;
+        padding-bottom: 4em;
+    }
+
+    .kg-header-card.kg-size-large {
+        padding-top: 12em;
+        padding-bottom: 12em;
+    }
+
+    .kg-header-card.kg-width-full {
+        padding-left: 4em;
+        padding-right: 4em;
+    }
+
+    .kg-header-card.kg-align-left {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .kg-header-card.kg-style-dark {
+        background: #15171a;
+        color: #ffffff;
+    }
+
+    .kg-header-card.kg-style-light {
+        color: #15171a;
+        border: 1px solid rgba(124, 139, 154, 0.25);
+        border-width: 1px 0;
+    }
+
+    .kg-header-card.kg-style-accent {
+        background-color: var(--ghost-accent-color);
+    }
+
+    .kg-header-card.kg-style-image {
+        background-color: #e7e7eb;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .kg-header-card h2 {
+        font-size: 4em;
+        font-weight: 700;
+        line-height: 1.1em;
+        margin: 0;
+    }
+
+    .kg-header-card h2 strong {
+        font-weight: 800;
+    }
+
+    .kg-header-card.kg-size-small h2 {
+        font-size: 3em;
+    }
+
+    .kg-header-card.kg-size-large h2 {
+        font-size: 5em;
+    }
+
+    .kg-header-card h3 {
+        font-size: 1.25em;
+        font-weight: 500;
+        line-height: 1.3em;
+        margin: 0;
+    }
+
+    .kg-header-card h3 strong {
+        font-weight: 600;
+    }
+
+    .kg-header-card.kg-size-small h3 {
+        font-size: 1em;
+    }
+
+    .kg-header-card.kg-size-large h3 {
+        font-size: 1.5em;
+    }
+
+    .kg-header-card:not(.kg-style-light) h2,
+    .kg-header-card:not(.kg-style-light) h3 {
+        color: #ffffff;
+    }
+
+    .kg-header-card a.kg-header-card-button {
+        display: flex;
+        position: static;
+        align-items: center;
+        padding: 0 1.2em;
+        height: 2.4em;
+        line-height: 1em;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: opacity 0.2s ease-in-out;
+        background-color: var(--ghost-accent-color);
+        color: #ffffff;
+        margin: 1.75em 0 0;
+    }
+
+    .kg-header-card a.kg-header-card-button:hover {
+        opacity: 0.85;
+    }
+
+    .kg-header-card.kg-size-large a.kg-header-card-button {
+        margin-top: 2em;
+    }
+
+    .kg-header-card.kg-size-small a.kg-header-card-button {
+        margin-top: 1.5em;
+    }
+
+    .kg-header-card.kg-style-image a.kg-header-card-button,
+    .kg-header-card.kg-style-dark a.kg-header-card-button {
+        background: #ffffff;
+        color: #15171a;
+    }
+
+    .kg-header-card.kg-style-accent a.kg-header-card-button {
+        background: #ffffff;
+        color: var(--ghost-accent-color);
+    }
+
+    .kg-audio-card {
+        display: flex;
+        width: 100%;
+        box-shadow: inset 0 0 0 1px rgba(124, 139, 154, 0.25);
+    }
+
+    .kg-audio-thumbnail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        min-width: 80px;
+        height: 80px;
+        background: transparent;
+        object-fit: cover;
+        aspect-ratio: 1/1;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .kg-audio-thumbnail.placeholder {
+        background: var(--ghost-accent-color);
+    }
+
+    .kg-audio-thumbnail.placeholder svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+    }
+
+    .kg-audio-player-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        --seek-before-width: 0%;
+        --volume-before-width: 100%;
+        --buffered-width: 0%;
+    }
+
+    .kg-audio-title {
+        width: 100%;
+        padding: 8px 12px 0;
+        border: none;
+        font-family: inherit;
+        font-size: 1.1em;
+        font-weight: 700;
+        background: transparent;
+    }
+
+    .kg-audio-player {
+        display: none;
+    }
+
+    .kg-width-full.kg-card-hascaption {
+        display: grid;
+        grid-template-columns: inherit;
+    }
+
+    .post-content table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .post-content th {
+        padding: 0.5em 0.8em;
+        text-align: left;
+        font-size: .75em;
+        text-transform: uppercase;
+    }
+
+    .post-content td {
+        padding: 0.4em 0.7em;
+    }
+
+    .post-content tbody tr:nth-child(2n + 1) {
+        background-color: rgba(0,0,0,0.1);
+        padding: 1px;
+    }
+
+    .post-content tbody tr:nth-child(2n + 2) td:last-child {
+        box-shadow:
+            inset 1px 0 rgba(0,0,0,0.1),
+            inset -1px 0 rgba(0,0,0,0.1);
+    }
+
+    .post-content tbody tr:nth-child(2n + 2) td {
+        box-shadow: inset 1px 0 rgba(0,0,0,0.1);
+    }
+
+    .post-content tbody tr:last-child {
+        border-bottom: 1px solid rgba(0,0,0,.1);
+    }
+
+    .page-footer {
+        padding: 60px 5vmin;
+        margin: 60px auto 0;
+        text-align: center;
+        background-color: #f8f8f8;
+    }
+
+    .page-footer h3 {
+        margin: 0.5rem 0 0 0;
+    }
+
+    .page-footer p {
+        max-width: 500px;
+        margin: 1rem auto 1.5rem;
+        font-size: 1.7rem;
+        line-height: 1.5em;
+        color: rgba(0,0,0,0.6)
+    }
+
+    .powered {
+        display: inline-flex;
+        align-items: center;
+        margin: 30px 0 0;
+        padding: 6px 9px 6px 6px;
+        border: rgba(0,0,0,0.1) 1px solid;
+        font-size: 12px;
+        line-height: 12px;
+        letter-spacing: -0.2px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-weight: 500;
+        color: #222;
+        text-decoration: none;
+        background: #fff;
+        border-radius: 6px;
+    }
+
+    .powered svg {
+        height: 16px;
+        width: 16px;
+        margin: 0 6px 0 0;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            font-size: 1.6rem;
+        }
+        h1 {
+            font-size: 3rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        h1 {
+            font-size: 2.6rem;
+            line-height: 1.15em;
+        }
+        h2 {
+            font-size: 2rem;
+            line-height: 1.2em;
+        }
+        h3 {
+            font-size: 1.7rem;
+        }
+    }
+
+    :root {--ghost-accent-color: #000000;}
+    </style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    
+
+</head>
+
+<body class="amp-template">
+    <header class="page-header">
+        <a href="https://blog.sparker0i.me">
+                <amp-img class="site-icon" src="https://blog.sparker0i.me/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed" alt="Sparker0i&#x27;s Blog"></amp-img>
+        </a>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">How to use Devcontainers to create apps with x86 architecture on an Apple Silicon Mac</h1>
+                <section class="post-meta">
+                    Aaditya Menon -
+                    <time class="post-date" datetime="2024-04-09">09 Apr 2024</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg" width="600" height="340" layout="responsive" 
+                alt="Using Devcontainers to run x86 apps on Apple Silicon Macs, powered by Rosetta"
+                ></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <p>Apps are a significant part of our lives today. There are various apps you might be using today. On a smartphone, you would be using WhatsApp, Snapchat, Instagram, YouTube and various other apps. On a PC/laptop, you would be using a browser, game launchers to start your favorite games and IDEs to develop applications. </p>
+<p>Many websites you know and love are apps themselves. As an example, the Facebook website is written using the React framework and packaged as a Web application to run in a browser. YouTube and various other websites by Google are written in the Angular framework and packaged as web apps too.</p>
+<p>To develop any kind of major applications, you would need a PC or a laptop and an IDE installed. There are various kinds of IDEs available based on the programming language and the kind of application you are developing. You would also need various libraries to create your application - lest write the code yourself. Which leads to the problem I'll be tackling in today's post.</p>
+<h2 id="background">Background</h2>
+<p>PCs and laptops sold today run on x86 architecture CPUs made by Intel and AMD. However in recent times, we have started to see a lot of laptops being sold with the CPUs using ARM architecture, which until recently was found only in mobile phones. Not only are these CPUs way more battery efficient, they also allow to wake a laptop from sleep a lot quicker than x86 based laptops. Most notable ARM based laptops are manufactured by Apple, which use the Apple Silicon chips - M1, M2, M3 etc.</p>
+<p>Like I've explained before when you are looking to build an application, you'd need various libraries to write code. Most libraries in the various programming languages are universal, ie. they are compatible to run on the architecture of your machine's CPU. However, there are some libraries which do not run (yet) on an ARM machine.</p>
+<p>The most notable culprit for this is the <a href="https://www.npmjs.com/package/ibm_db?ref=localhost">ibm_db</a> library on Node. If you try to install that package on your Apple Silicon mac, you will see this error:</p>
+<figure class="kg-card kg-image-card"><figcaption><span>Error installing ibm_db directly on the Apple Silicon MacBook</span></figcaption></figure>
+<p>Yup, it suggests to install the x64 version of NodeJS and then use the package. I had so many other NodeJS applications on my machine without ibm_db which were working pretty well, so I did not want to install an inefficient version of NodeJS for my machine. But I also had to work on this important project on the M1 mac for my org. I was in a dilemma. Enter <strong>devcontainers</strong>:</p>
+<h2 id="devcontainers">Devcontainers</h2>
+<p>From its website, A devcontainer allows you to use a container as a full-featured development environment. It can be used to run an application, to separate tools, libraries, or runtimes needed for working with a codebase, and to aid in continuous integration and testing.</p>
+<p>This is very similar to how Python's venv (Virtual Environments) work. Usually, all Python developers need that to do any basic development. But one key difference with devcontainers is that it opens your project folder inside a Docker container, and then any packages you install in the devcontainer remains inside that and does not cross over to your host machine.</p>
+<p>While the devcontainer spec is Open source and available independently, Visual Studio Code provides an easy way (UI) of doing stuff with it. Using devcontainers, I'll be trying to run my NodeJS app with the ibm_db dependency on my MacBook with Apple Silicon.</p>
+<h2 id="create-the-virtual-machine">Create the Virtual Machine</h2>
+<p>Docker - or for that matter any of the open source containerization software - cannot run as is on a machine without a Linux Kernel. You'll need a Linux virtual machine that acts as the place where all your containers will be run. The simplest solution to do this is to create a VM using Colima.</p>
+<p>Here is the command to create a machine using Colima: </p>
+<pre><code>colima start --cpu 2 --memory 4 --disk 50 --arch aarch64 --vm-type=vz --mount-type=virtiofs --vz-rosetta --very-verbose</code></pre>
+<ul><li>The CPU, Memory and Disk parameters should be very obvious here.</li><li><code>--very-verbose</code> is to see more detailed logging while the VM starts. It is useful to debug if anything is going wrong or not.  </li><li><code>--arch aarch64</code> tells the Lima CLI to create the VM with the ARM64 architecture. You cannot directly create an x86 machine on an ARM MacBook just like that. The next two options will help enable what I want to do.</li><li><code>--vm-type=vz</code> will use the new MacOS <a href="https://developer.apple.com/documentation/virtualization?language=objc&amp;ref=localhost">Virtualization API</a> to create the VMs.</li><li><code>--vz-rosetta</code> will use Rosetta translation layer when interacting with the VM.</li><li><code>--mount-type=virtiofs</code> creates a VM with the virtiofs volume driver. This allows you to share files from your host machine inside the Container.</li></ul>
+<p>Using the VZ APIs along with the virtiofs mount enables better performance running the VM.</p>
+<p>Create base image for the Container</p>
+<p>Devcontainer runs your code inside a Docker container. The basic principle of running a Docker Container requires you to have a base image on top of which any operations can be performed.</p>
+<p>In this case I want to develop a NodeJS app which utilizes the ibm_db library. So I will need a base image with NodeJS installed. Thankfully, Microsoft provides base Docker images that work well with devcontainers inside VS Code. I'll be using a base image which comes with NodeJS 20 installed.</p>
+<p>To create the base image I will use in my application, I will need to SSH into the Virtual Machine using the command and then create the base image from there. If you try to create the base image from your host terminal, the image gets created with the ARM architecture, which is not helpful for us as we want the image with an x86 architecture.</p>
+<p>This is the <code>Dockerfile</code> I will be using:</p>
+<figure class="kg-card kg-code-card"><pre><code class="language-Dockerfile">FROM --platform=linux/amd64 mcr.microsoft.com/devcontainers/typescript-node:20-bookworm
+RUN uname -a</code></pre><figcaption><p><span>Dockerfile contents</span></p></figcaption></figure>
+<p>To create the image, run the following commands:</p>
+<ol><li><code>colima ssh</code></li><li><code>export DOCKER_DEFAULT_PLATFORM=linux/amd64</code></li><li><code>docker build --no-cache --platform linux/amd64 --progress plain -t node20-amd64-localhost:latest .</code></li><li><code>exit</code></li></ol>
+<p>Once you build this image, you should see the output like below for the <code>uname</code> command. If you don't see the <code>x86_64</code> like I've highlighted, then you might have not followed the guide properly:</p>
+<figure class="kg-card kg-image-card"></figure>
+<h3 id="run-your-project-inside-a-devcontainer">Run your project inside a Devcontainer</h3>
+<p>I won't be using any sample project for this article, as you may use any of your x86 based projects you wish to emulate inside a Devcontainer. To do that, you will need to create a folder called <code>.devcontainer</code>, inside which you need to have two files: <code>devcontainer.json</code> and <code>Dockerfile</code>.</p>
+<p>The contents of the <code>Dockerfile</code> is a single line which uses the base image that we had built in one of the previous sections:</p>
+<pre><code class="language-Dockerfile">FROM --platform=linux/amd64 node20-amd64-localhost:latest</code></pre>
+<p>The <code>devcontainer.json</code> would contain the following contents (Please do not copy the comments as is, it is only meant to explain what each line does:</p>
+<pre><code class="language-json">{
+  "name": "NodeJS with Typescript installed to build angular apps using x86-only libraries",
+  "dockerfile": "Dockerfile",
+  "runArgs": ["-v", "${localWorkspaceFolder}:/workspace:cached"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "remoteUser": "root",
+  "forwardPorts": [3000]
+}</code></pre>
+<p>In line 4, <code>${localWorkspaceFolder}</code> refers to your project's location on the host machine, <code>/workspace</code> is where your project files be mounted inside the devcontainer and the <code>:cached</code> option is used to improve performance in Docker when mounting volumes.</p>
+<p>I want to use the user <code>root</code> inside my devcontainer so that I don't need to do a <code>sudo</code> everytime to install an npm package inside the container. I'm forwarding the port 3000 from my container to my host machine as my NodeJS express app uses that port to listen onto requests.</p>
+<p>Once you are done with these two files, open your project inside VSCode, then install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers&amp;ref=localhost">Devcontainers</a> extension, Reload the window, press Cmd+Shift+P and then type <code>Reopen in Container</code> and click on that option. This will build your Container image, mount your project and make it available inside <code>/workspace</code> in the container and then you should be able to emulate projects using x86 libraries inside the devcontainer on your machine.</p>
+<p>To test that it works, I will try to install the <code>ibm_db</code> package from within the container, and here's how that went:</p>
+<figure class="kg-card kg-image-card"><figcaption><span>That went nicely.</span></figcaption></figure>
+<p>Now I need to run my app and see whether it is able to connect to my Database using this library or not: </p>
+<figure class="kg-card kg-image-card"><figcaption><span>Yup it did connect well.</span></figcaption></figure>
+<h3 id="why-am-i-using-colima">Why am I using Colima</h3>
+<p>Colima has support for emulating x86 based VMs using the Rosetta 2 translation layer on Apple Silicon Macs. This is important as we needed ibm_db to work. I also think that building x86 images on ARM platforms will become common, as soon as ARM based laptops from Apple and others start becoming mainstream.</p>
+<p>Moreover, I've not yet found another easier way to create and run a Docker machine using CLI commands. Of course there's Docker Desktop which gives a nice GUI, but its <a href="https://www.docker.com/blog/updating-product-subscriptions/?ref=localhost">license change</a> in 2022 wrecked havoc on many companies. Our org had to ban the installs of Docker Desktop completely. I have had to migrate to Podman <a href="https://blog.sparker0i.me/podman-best-docker-alternative/?ref=localhost">in the past</a> due to this. While it was fun, it didn't help me solve my problem. Which brings us to:</p>
+<h3 id="why-not-podman">Why not Podman?</h3>
+<p>As of writing this blog in early April 2024, Podman does not yet support x86_64 emulation using the Rosetta translation layer. There is a Pull Request open that tackles the issue, however it's not merged yet. So we'd have to wait and see how that pans out, and I shall give devcontainers a try with Podman once the issues with Rosetta are sorted.</p>
+<h3 id="why-not-qemu">Why not QEMU?</h3>
+<p>I did try using QEMU based emulation by typing <code>colima start --arch x86_64 -p qemu</code> but, While that worked okay, as in it started the container and I was able to run my app, I discovered that for my NodeJS based application it wasn't really as efficient. Also, my M1 MacBook was heating up like it hadn't done ever before. What is the point of having an M1 Mac if it's going to behave the same as the Intel ones. Thus I felt using Rosetta based emulation was better for me.</p>
+<h3 id="how-about-windows">How about Windows?</h3>
+<p>While ARM based Windows laptops are set to make a debut later in 2024, I don't believe there will be too much to be done to get it to work. There's WSL which exists already, and one has to watch out how the x86 emulation plays out on these ARM machines using the Snapdragon X chips. If that ends up like how Rosetta has played out so far, all we'll need is for WSL and its distros to support doing the same as well. Things are not yet clear on that front, and I will try to update my article as soon as the picture is clear.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Right now I've just shown one example where I had to run an NodeJS app with x86 libraries on an M1 based Mac without spinning up a full fledged VM like inside VirtualBox or VMWare. You can also extend this concept to various other languages having x86-only libraries like Python etc.</p>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="page-footer">
+            <amp-img class="site-icon" src="https://blog.sparker0i.me/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed" alt="Sparker0i&#x27;s Blog"></amp-img>
+        <h3>Sparker0i&#x27;s Blog</h3>
+            <p>Code | Tech | Cricket</p>
+        <p><a href="https://blog.sparker0i.me">Read more posts →</a></p>
+        <a class="powered" href="https://ghost.org" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 156"><g fill="none" fill-rule="evenodd"><rect fill="#15212B" width="156" height="156" rx="27"/><g transform="translate(36 36)" fill="#F6F8FA"><path d="M0 71.007A4.004 4.004 0 014 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0130 84H4a4 4 0 01-4-4.007v-8.986zM50 71.007A4.004 4.004 0 0154 67h26a4 4 0 014 4.007v8.986A4.004 4.004 0 0180 84H54a4 4 0 01-4-4.007v-8.986z"/><rect y="34" width="84" height="17" rx="4"/><path d="M0 4.007A4.007 4.007 0 014.007 0h41.986A4.003 4.003 0 0150 4.007v8.986A4.007 4.007 0 0145.993 17H4.007A4.003 4.003 0 010 12.993V4.007z"/><rect x="67" width="17" height="17" rx="4"/></g></g></svg> Published with Ghost</a>
+    </footer>
+    
+</body>
+</html>
