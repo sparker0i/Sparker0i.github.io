@@ -6,35 +6,35 @@
 
     <title>Tail Recursion: Why and How-to Use in Scala</title>
 
-    <meta name="description" content="Read my blog post to know more about the advantages of tail recursion, why and how to use it in Scala." />
-    <link rel="icon" href="/favicon.png" type="image/png" />
-    <link rel="canonical" href="http://localhost:2368/tail-recursion-scala-why-how-to/" />
-    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="description" content="Read my blog post to know more about the advantages of tail recursion, why and how to use it in Scala.">
+    <link rel="icon" href="http://localhost:2368/content/images/size/w256h256/2020/02/Untitled.png" type="image/png">
+    <link rel="canonical" href="http://localhost:2368/tail-recursion-scala-why-how-to/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
     
-    <meta property="og:site_name" content="Sparker0i&#x27;s Blog" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Tail Recursion: Why and How-to Use in Scala" />
-    <meta property="og:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala." />
-    <meta property="og:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/" />
-    <meta property="og:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" />
-    <meta property="article:published_time" content="2020-05-07T19:45:00.000Z" />
-    <meta property="article:modified_time" content="2020-09-27T08:16:34.000Z" />
-    <meta property="article:tag" content="Scala" />
+    <meta property="og:site_name" content="Sparker0i&#x27;s Blog">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Tail Recursion: Why and How-to Use in Scala">
+    <meta property="og:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala.">
+    <meta property="og:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png">
+    <meta property="article:published_time" content="2020-05-07T19:45:00.000Z">
+    <meta property="article:modified_time" content="2020-09-27T08:16:34.000Z">
+    <meta property="article:tag" content="Scala">
     
-    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Tail Recursion: Why and How-to Use in Scala" />
-    <meta name="twitter:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala." />
-    <meta name="twitter:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/" />
-    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" />
-    <meta name="twitter:label1" content="Written by" />
-    <meta name="twitter:data1" content="Aaditya Menon" />
-    <meta name="twitter:label2" content="Filed under" />
-    <meta name="twitter:data2" content="Scala" />
-    <meta name="twitter:site" content="@Sparker0i" />
-    <meta name="twitter:creator" content="@Sparker0i" />
-    <meta property="og:image:width" content="379" />
-    <meta property="og:image:height" content="212" />
+    <meta property="article:publisher" content="https://www.facebook.com/Sparker0i">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tail Recursion: Why and How-to Use in Scala">
+    <meta name="twitter:description" content="Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala.">
+    <meta name="twitter:url" content="http://localhost:2368/tail-recursion-scala-why-how-to/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Aaditya Menon">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Scala">
+    <meta name="twitter:site" content="@Sparker0i">
+    <meta name="twitter:creator" content="@Sparker0i">
+    <meta property="og:image:width" content="379">
+    <meta property="og:image:height" content="212">
     
     <script type="application/ld+json">
 {
@@ -75,15 +75,12 @@
     },
     "keywords": "Scala",
     "description": "Read my blog post to know more about the advantages of tail recursion, and how do you use it in Scala.",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "http://localhost:2368/"
-    }
+    "mainEntityOfPage": "http://localhost:2368/tail-recursion-scala-why-how-to/"
 }
     </script>
 
-    <meta name="generator" content="Ghost 4.33" />
-    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/" />
+    <meta name="generator" content="Ghost 5.54">
+    <link rel="alternate" type="application/rss+xml" title="Sparker0i&#x27;s Blog" href="http://localhost:2368/rss/">
 
     <style amp-custom>
     *,
@@ -258,6 +255,16 @@
 
     amp-img img {
         object-fit: cover;
+    }
+    
+    amp-youtube {
+        height: calc(100vw / 1.78);
+        width: 100vw;
+        position: relative;
+    }
+
+    amp-youtube img {
+        position: absolute;
     }
 
     .page-header {
@@ -1048,7 +1055,7 @@
         }
     }
 
-    :root {--ghost-accent-color: #00e1ff;}
+    :root {--ghost-accent-color: #000000;}
     </style>
 
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
@@ -1061,7 +1068,7 @@
 <body class="amp-template">
     <header class="page-header">
         <a href="http://localhost:2368">
-                <amp-img class="site-icon" src="http://localhost:2368/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed"></amp-img>
+                <amp-img class="site-icon" src="http://localhost:2368/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed" alt="Sparker0i&#x27;s Blog"></amp-img>
         </a>
     </header>
 
@@ -1076,7 +1083,9 @@
                 </section>
             </header>
             <figure class="post-image">
-                <amp-img src="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" width="600" height="340" layout="responsive"></amp-img>
+                <amp-img src="http://localhost:2368/content/images/2020/05/imgonline-com-ua-Transparent-background-I9SFpWZMbxlkM67n.png" width="600" height="340" layout="responsive" 
+                alt="Tail Recursion: Why and How-to Use in Scala"
+                ></amp-img>
             </figure>
             <section class="post-content">
 
@@ -1131,14 +1140,14 @@ case class Bm() {
         else cumulativeRecursion(n - 1, res * n)
     }
     cumulativeRecursion(n, 1)
-}</code></pre><p>Hence, you retain your method's original signature, as well as converted it into a tail-recursive call (Though this will add 1 extra stack call to the new function).</p><h3 id="conclusion">CONCLUSION</h3><p>In this post, I have:</p><ul><li>Defined Tail Recursion</li><li>Introduced <code>@tailrec</code> annotation</li><li>Shown a formula to convert a recursive function into a tail-recursive one.</li></ul><p>Hope you have enjoyed this post. Do follow my profiles on <a href="https://www.linkedin.com/in/sparker0i">LinkedIn</a>, <a href="https://github.com/Sparker0i">GitHub</a> and <a href="https://twiiter.com/Sparker0i">Twitter</a>.</p><p>Ciao, until the next post.</p><p>Reference: <a href="https://alvinalexander.com/scala/fp-book/tail-recursive-algorithms/">Tail Recursive Algorithms</a></p>
+}</code></pre><p>Hence, you retain your method's original signature, as well as converted it into a tail-recursive call (Though this will add 1 extra stack call to the new function).</p><h3 id="conclusion">CONCLUSION</h3><p>In this post, I have:</p><ul><li>Defined Tail Recursion</li><li>Introduced <code>@tailrec</code> annotation</li><li>Shown a formula to convert a recursive function into a tail-recursive one.</li></ul><p>Hope you have enjoyed this post. Do follow my profiles on <a href="https://www.linkedin.com/in/sparker0i?ref=localhost">LinkedIn</a>, <a href="https://github.com/Sparker0i?ref=localhost">GitHub</a> and <a href="https://twiiter.com/Sparker0i?ref=localhost">Twitter</a>.</p><p>Ciao, until the next post.</p><p>Reference: <a href="https://alvinalexander.com/scala/fp-book/tail-recursive-algorithms/?ref=localhost">Tail Recursive Algorithms</a></p>
 
             </section>
 
         </article>
     </main>
     <footer class="page-footer">
-            <amp-img class="site-icon" src="http://localhost:2368/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed"></amp-img>
+            <amp-img class="site-icon" src="http://localhost:2368/content/images/2020/02/Untitled.png" width="50" height="50" layout="fixed" alt="Sparker0i&#x27;s Blog"></amp-img>
         <h3>Sparker0i&#x27;s Blog</h3>
             <p>Code | Tech | Cricket</p>
         <p><a href="http://localhost:2368">Read more posts →</a></p>
