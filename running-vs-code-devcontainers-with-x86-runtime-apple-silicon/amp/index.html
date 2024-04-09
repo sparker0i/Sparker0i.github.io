@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/">
     <meta property="og:image" content="https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg">
     <meta property="article:published_time" content="2024-04-09T15:51:58.000Z">
-    <meta property="article:modified_time" content="2024-04-09T15:51:58.000Z">
+    <meta property="article:modified_time" content="2024-04-09T16:12:43.000Z">
     <meta property="article:tag" content="Virtualization">
     <meta property="article:tag" content="Colima">
     <meta property="article:tag" content="Docker">
@@ -73,7 +73,7 @@
     "headline": "Emulate x86 apps on an Apple Silicon Mac using Devcontainers",
     "url": "https://blog.sparker0i.me/running-vs-code-devcontainers-with-x86-runtime-apple-silicon/",
     "datePublished": "2024-04-09T15:51:58.000Z",
-    "dateModified": "2024-04-09T15:51:58.000Z",
+    "dateModified": "2024-04-09T16:12:43.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "https://blog.sparker0i.me/content/images/2024/04/Rosetta2.jpg",
@@ -1110,12 +1110,12 @@
 <p>This is very similar to how Python's venv (Virtual Environments) work. Usually, all Python developers need that to do any basic development. But one key difference with devcontainers is that it opens your project folder inside a Docker container, and then any packages you install in the devcontainer remains inside that and does not cross over to your host machine.</p>
 <p>While the devcontainer spec is Open source and available independently, Visual Studio Code provides an easy way (UI) of doing stuff with it. Using devcontainers, I'll be trying to run my NodeJS app with the ibm_db dependency on my MacBook with Apple Silicon.</p>
 <h2 id="create-the-virtual-machine">Create the Virtual Machine</h2>
-<p>Docker - or for that matter any of the open source containerization software - cannot run as is on a machine without a Linux Kernel. You'll need a Linux virtual machine that acts as the place where all your containers will be run. The simplest solution to do this is to create a VM using Colima.</p>
+<p>Docker - or for that matter any of the open source containerization software - cannot run as is on a machine without a Linux Kernel. You'll need a Linux virtual machine that acts as the place where all your containers will be run. The simplest solution to do this is to create a VM using <a href="https://github.com/abiosoft/colima?ref=localhost">Colima</a>.</p>
 <p>Here is the command to create a machine using Colima: </p>
 <pre><code>colima start --cpu 2 --memory 4 --disk 50 --arch aarch64 --vm-type=vz --mount-type=virtiofs --vz-rosetta --very-verbose</code></pre>
 <ul><li>The CPU, Memory and Disk parameters should be very obvious here.</li><li><code>--very-verbose</code> is to see more detailed logging while the VM starts. It is useful to debug if anything is going wrong or not.  </li><li><code>--arch aarch64</code> tells the Lima CLI to create the VM with the ARM64 architecture. You cannot directly create an x86 machine on an ARM MacBook just like that. The next two options will help enable what I want to do.</li><li><code>--vm-type=vz</code> will use the new MacOS <a href="https://developer.apple.com/documentation/virtualization?language=objc&amp;ref=localhost">Virtualization API</a> to create the VMs.</li><li><code>--vz-rosetta</code> will use Rosetta translation layer when interacting with the VM.</li><li><code>--mount-type=virtiofs</code> creates a VM with the virtiofs volume driver. This allows you to share files from your host machine inside the Container.</li></ul>
 <p>Using the VZ APIs along with the virtiofs mount enables better performance running the VM.</p>
-<p>Create base image for the Container</p>
+<h2 id="create-base-image-for-the-container">Create base image for the Container</h2>
 <p>Devcontainer runs your code inside a Docker container. The basic principle of running a Docker Container requires you to have a base image on top of which any operations can be performed.</p>
 <p>In this case I want to develop a NodeJS app which utilizes the ibm_db library. So I will need a base image with NodeJS installed. Thankfully, Microsoft provides base Docker images that work well with devcontainers inside VS Code. I'll be using a base image which comes with NodeJS 20 installed.</p>
 <p>To create the base image I will use in my application, I will need to SSH into the Virtual Machine using the command and then create the base image from there. If you try to create the base image from your host terminal, the image gets created with the ARM architecture, which is not helpful for us as we want the image with an x86 architecture.</p>
@@ -1126,7 +1126,7 @@ RUN uname -a</code></pre><figcaption><p><span>Dockerfile contents</span></p></fi
 <ol><li><code>colima ssh</code></li><li><code>export DOCKER_DEFAULT_PLATFORM=linux/amd64</code></li><li><code>docker build --no-cache --platform linux/amd64 --progress plain -t node20-amd64-localhost:latest .</code></li><li><code>exit</code></li></ol>
 <p>Once you build this image, you should see the output like below for the <code>uname</code> command. If you don't see the <code>x86_64</code> like I've highlighted, then you might have not followed the guide properly:</p>
 <figure class="kg-card kg-image-card"></figure>
-<h3 id="run-your-project-inside-a-devcontainer">Run your project inside a Devcontainer</h3>
+<h2 id="run-your-project-inside-a-devcontainer">Run your project inside a Devcontainer</h2>
 <p>I won't be using any sample project for this article, as you may use any of your x86 based projects you wish to emulate inside a Devcontainer. To do that, you will need to create a folder called <code>.devcontainer</code>, inside which you need to have two files: <code>devcontainer.json</code> and <code>Dockerfile</code>.</p>
 <p>The contents of the <code>Dockerfile</code> is a single line which uses the base image that we had built in one of the previous sections:</p>
 <pre><code class="language-Dockerfile">FROM --platform=linux/amd64 node20-amd64-localhost:latest</code></pre>
